@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>서울예대 2027 인터랙티브 미연시</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #f8fafc; --app-bg: linear-gradient(180deg, #fff1f2 0%, #e0f2fe 100%); --primary: #f43f5e; --primary-soft: #fda4af; --card: rgba(255, 255, 255, 0.95); --text: #1e293b; --sub: #475569; --hover: #ffe4e6; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
+    body { width: 100%; height: 100dvh; background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; }
+    #app-container { width: 100%; max-width: 420px; height: 100dvh; background: var(--app-bg); position: relative; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.08); }
+    @media (min-height: 700px) and (min-width: 421px) { #app-container { height: 85vh; max-height: 840px; border-radius: 24px; border: 4px solid #fff; } }
+    .screen { position: absolute; inset: 0; display: none; flex-direction: column; justify-content: center; align-items: center; padding: 24px; overflow: hidden; }
+    .screen.active { display: flex; }
+    .opening-title { font-size: 26px; line-height: 1.4; text-align: center; font-weight: 700; margin-bottom: 12px; color: #0f172a; }
+    .opening-sub { font-size: 14px; line-height: 1.6; text-align: center; color: var(--sub); margin-bottom: 40px; }
+    .main-btn { width: 100%; max-width: 280px; height: 54px; border: none; border-radius: 16px; background: linear-gradient(135deg, var(--primary), var(--primary-soft)); color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 8px 20px rgba(244, 63, 94, 0.2); transition: 0.2s; text-align: center; line-height: 54px; text-decoration: none; }
+    .main-btn:hover { transform: translateY(-2px); }
+    .progress { width: 100%; height: 8px; background: rgba(0, 0, 0, 0.05); border-radius: 999px; overflow: hidden; margin-bottom: 30px; }
+    .progress-bar { width: 0%; height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-soft)); border-radius: 999px; transition: width 0.3s ease; }
+    .question-number { font-size: 12px; font-weight: 600; color: var(--primary); margin-bottom: 12px; }
+    .question { font-size: 19px; line-height: 1.5; font-weight: 700; margin-bottom: 24px; color: #0f172a; }
+    .answer-list { display: flex; flex-direction: column; gap: 10px; }
+    .answer-btn { width: 100%; min-height: 58px; padding: 14px; border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 16px; background: var(--card); text-align: left; cursor: pointer; transition: 0.2s; font-size: 14px; }
+    .answer-btn:hover { background: var(--hover); }
+    .result-box { width: 100%; max-height: 85%; padding: 24px 20px; border-radius: 24px; background: var(--card); box-shadow: 0 10px 30px rgba(0,0,0,0.05); display: flex; flex-direction: column; overflow-y: auto; }
+    .result-title { font-size: 24px; font-weight: 700; margin-bottom: 12px; text-align: center; }
+    .info-card { background: rgba(0,0,0,0.03); border-radius: 14px; padding: 14px; margin-bottom: 16px; font-size: 13px; line-height: 1.6; }
+    .info-card strong { color: var(--primary); }
+    .info-card ul { margin-left: 18px; margin-top: 4px; }
+    .link-btn { width: 100%; height: 46px; border: 1px solid var(--primary); border-radius: 12px; background: #fff; color: var(--primary); font-size: 14px; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; text-decoration: none; margin-bottom: 8px; transition: 0.2s; }
+    .link-btn:hover { background: var(--hover); }
+    .top-ui { position: absolute; top: 18px; left: 20px; font-size: 11px; font-weight: 600; color: var(--primary); z-index: 10; }
+    .location-tag { position: absolute; top: 18px; right: 20px; font-size: 11px; background: rgba(0,0,0,0.6); color: #fff; padding: 4px 10px; border-radius: 12px; z-index: 10; }
+    .character { position: absolute; bottom: 35%; left: 50%; transform: translateX(-50%); max-height: 42vh; width: auto; object-fit: contain; pointer-events: none; z-index: 1; transition: opacity 0.2s ease-in-out; }
+    .dialogue-box { position: absolute; bottom: 0; left: 0; width: 100%; height: 42%; padding: 20px; background: rgba(255, 255, 255, 0.98); border-top-left-radius: 24px; border-top-right-radius: 24px; box-shadow: 0 -10px 30px rgba(0,0,0,0.05); z-index: 5; display: flex; flex-direction: column; cursor: pointer; }
+    .name { font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 8px; background: #ffe4e6; padding: 4px 12px; border-radius: 20px; display: inline-block; }
+    .dialogue { font-size: 14px; line-height: 1.6; color: #334155; flex: 1; overflow-y: auto; margin-bottom: 10px; pointer-events: none; }
+    .next-tip { font-size: 11px; color: #94a3b8; text-align: right; animation: blink 1.5s infinite; pointer-events: none; }
+    .choices { display: flex; flex-direction: column; gap: 6px; width: 100%; margin-top: auto; }
+    .choice-btn { width: 100%; min-height: 40px; padding: 10px 12px; border: 1px solid var(--primary-soft); border-radius: 12px; background: #fff; color: var(--text); text-align: left; font-size: 13px; cursor: pointer; }
+    .choice-btn:hover { background: var(--hover); }
+    @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+  </style>
+</head>
+<body>
+<div id="app-container">
+  <section class="screen active" id="openingScreen">
+    <div class="opening-title">서울예술대학교<br><span style="color:var(--primary)">2027 캠퍼스 시뮬레이션</span></div>
+    <div class="opening-sub">단순한 홍보가 아닌, 설레는 만남. 당신의 선배가 기다립니다.</div>
+    <button class="main-btn" onclick="startTest()">성향 분석 & 입장하기</button>
+  </section>
+  <section class="screen" id="testScreen">
+    <div class="test-container">
+      <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+      <div class="question-number" id="questionNumber">QUESTION 01</div>
+      <div class="question" id="questionText"></div>
+      <div class="answer-list" id="answerList"></div>
+    </div>
+  </section>
+  <section class="screen" id="resultScreen">
+    <div class="result-box">
+      <div class="opening-sub" style="margin-bottom:8px; text-align:center;">당신과 매칭된 운명의 전공</div>
+      <div class="result-title" id="resultTitle" style="color:var(--primary)">학과명</div>
+      <div class="result-desc" id="resultDesc" style="font-size:14px; text-align:center; color:var(--sub); margin-bottom:20px;">설명</div>
+      <button class="main-btn" style="margin: 0 auto;" onclick="startNovel()">캠퍼스 문 열기</button>
+    </div>
+  </section>
+  <section class="screen" id="novelScreen">
+    <div class="top-ui">SEOUL INSTITUTE OF THE ARTS</div>
+    <div class="location-tag" id="locationTag">장소</div>
+    <img src="images/character/default.png" class="character" id="character">
+    <div class="dialogue-box" id="dialogueBox" onclick="handleDialogueClick()">
+      <div><span class="name" id="name">선배</span></div>
+      <div class="dialogue" id="dialogue">로딩 중...</div>
+      <div class="next-tip" id="nextTip">▼ 터치하여 넘기기</div>
+      <div class="choices" id="choices" onclick="event.stopPropagation();"></div>
+    </div>
+  </section>
+  <section class="screen" id="outroScreen">
+    <div class="result-box">
+      <div class="opening-sub" id="outroType" style="margin-bottom:4px; font-weight:600; text-align:center; color:var(--primary);">CONGRATULATIONS</div>
+      <div class="result-title" id="outroTitle">학과 전공 안내</div>
+      <div class="info-card" id="outroInfo"></div>
+      <a href="https://www.seoularts.ac.kr" target="_blank" class="link-btn">✨ 입시 홈페이지 바로가기</a>
+      <a href="https://www.seoularts.ac.kr" target="_blank" class="link-btn">📋 모집요강 확인하기</a>
+      <button class="main-btn" style="margin: 12px auto 0 auto; height:46px; line-height:46px;" onclick="location.reload()">처음부터 다시 하기</button>
+    </div>
+  </section>
+</div>
+<script>
+  const screens = { opening: document.getElementById('openingScreen'), test: document.getElementById('testScreen'), result: document.getElementById('resultScreen'), novel: document.getElementById('novelScreen'), outro: document.getElementById('outroScreen') };
+  const questionText = document.getElementById('questionText'), answerList = document.getElementById('answerList'), progressBar = document.getElementById('progressBar'), questionNumber = document.getElementById('questionNumber');
+  const resultTitle = document.getElementById('resultTitle'), resultDesc = document.getElementById('resultDesc');
+  const nameEl = document.getElementById('name'), dialogueEl = document.getElementById('dialogue'), choicesEl = document.getElementById('choices'), characterEl = document.getElementById('character'), locationTag = document.getElementById('locationTag'), dialogueBox = document.getElementById('dialogueBox'), nextTip = document.getElementById('nextTip');
+  const outroTitle = document.getElementById('outroTitle'), outroInfo = document.getElementById('outroInfo'), outroType = document.getElementById('outroType');
+  
+  let currentQuestion = 0, selectedBranch = '', scriptIndex = 0, selectedRoute = '';
+  let scores = { creativewriting: 0, playwriting: 0 }; 
+
+  const questions = [
+    { question: '당신이 가장 선호하는 창작의 형태는?', answers: [{ text: '노트와 원고지에 꾹꾹 눌러 쓴 서사적 문장', types: ['creativewriting'], nextBranch: 1 }, { text: '무대 위의 인물들이 움직이는 대사와 장면 구성', types: ['playwriting'], nextBranch: 2 }] }
+  ];
+  const branchQuestions = {
+    1: { question: '당신을 밤새게 만드는 창작의 가장 큰 원동력은 무엇인가요?', answers: [{ text: '내가 완성한 문장이 타인의 감정을 울릴 때의 짜릿함', types: ['creativewriting'] }] },
+    2: { question: '당신을 밤새게 만드는 창작의 가장 큰 원동력은 무엇인가요?', answers: [{ text: '무대 위 캐릭터가 내 대사로 살아 움직이는 순간', types: ['playwriting'] }] }
+  };
+
+  const deptInfo = {
+    creativewriting: { title: '문예창작전공', img: 'creativewriting.png', desc: '텍스트로 세상을 창조하는 연금술사!<br>작가 타입.' },
+    playwriting: { title: '극작전공', img: 'playwriting.png', desc: '무대의 서사를 설계하는 이야기꾼!<br>극작 타입.' }
+  };
+
+  const outroDetails = {
+    creativewriting: { type: "문예창작과 엔딩!", title: "✍️ 문예창작전공", html: "<strong>[특징]</strong><br>감수성 풍부한 작가 양성.<br><strong>[배우는 것]</strong><ul><li>소설, 시 창작</li><li>문학 비평</li></ul>" },
+    playwriting: { type: "극작과 엔딩!", title: "🎭 극작전공", html: "<strong>[특징]</strong><br>이야기를 무대로 옮기는 설계자.<br><strong>[배우는 것]</strong><ul><li>희곡 작법</li><li>장면 구성</li></ul>" }
+  };
+
+  const scriptData = {
+    creativewriting: [
+      { type: 'dialogue', speaker: '안내', img: 'creativewriting.png', location: '문창과 작업실', text: "(캠퍼스를 걷던 중, 조용한 작업실 안에서 키보드 두드리는 소리가 들린다)" },
+      { type: 'dialogue', speaker: '안내', img: 'creativewriting.png', location: '문창과 작업실', text: "(문틈 사이로 노트북 불빛이 새어나온다)" },
+      { type: 'dialogue', speaker: '???', img: 'creativewriting.png', location: '문창과 작업실', text: "…거기 계속 서 있으면 화면 반사돼." },
+      { type: 'dialogue', speaker: '안내', img: 'creativewriting.png', location: '문창과 작업실', text: "(타이핑하던 선배가 웃으며 고개를 든다)" },
+      { type: 'choice', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "노트북 불빛 아래 선배의 진지한 시선.", choices: [{ text: "죄송해요…", jumpTo: 5 }, { text: "글 쓰는 게 신기해서요.", jumpTo: 5 }] },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "괜찮아. 어차피 지금 문장 막혀서 쉬고 있었거든." },
+      { type: 'dialogue', speaker: '안내', img: 'creativewriting.png', location: '문창과 작업실', text: "(선배가 노트북을 살짝 돌려 빈 의자를 가리킨다)" },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "앉을래?" },
+      { type: 'choice', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "조심스럽게 의자에 앉는다.", choices: [{ text: "감사합니다.", jumpTo: 9 }, { text: "실례할게요.", jumpTo: 9 }] },
+      { type: 'dialogue', speaker: '안내', img: 'creativewriting.png', location: '문창과 작업실', text: "(작업실 안에는 원고지, 노트, 책들이 가득 쌓여 있다)" },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "문예창작과는 거의 여기서 살아." },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "글 쓰고, 퇴고하고, 또 다 지우고 다시 쓰고." },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "그래서 다들 약간 예민해져 있을 때도 많아." },
+      { type: 'choice', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "작업실의 고요함 속에 나의 감상은?", choices: [{ text: "엄청 힘들겠네요…", jumpTo: 14 }, { text: "그래도 멋있어요.", jumpTo: 14 }] },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "힘들긴 하지." },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "근데 딱 마음에 드는 문장 나오는 순간은 진짜 미쳐." },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "새벽까지 붙잡고 있다가 한 줄 완성되면 괜히 세상 다 가진 기분 들거든." },
+      { type: 'dialogue', speaker: '안내', img: 'creativewriting.png', location: '문창과 작업실', text: "(선배가 웃으며 노트북 화면을 보여준다)" },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "이거 이번 과제인데 읽어볼래?" },
+      { type: 'dialogue', speaker: '안내', img: 'creativewriting.png', location: '문창과 작업실', text: "(짧은 소설 문장이 화면에 떠 있다)" },
+      { type: 'choice', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "화면에 떠오른 문장에 푹 빠져든다.", choices: [{ text: "분위기 진짜 좋다…", jumpTo: 21 }, { text: "이런 걸 직접 쓰다니 대단해요.", jumpTo: 21 }] },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "사실 아까부터 네 반응 좀 보고 있었거든." },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "너 글 읽을 때 표정 되게 솔직하게 변해." },
+      { type: 'dialogue', speaker: '안내', img: 'creativewriting.png', location: '문창과 작업실', text: "(잠깐 눈이 마주친다)" },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "너는 문예창작과 잘 어울릴 것 같아." },
+      { type: 'choice', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "선배의 예리한 눈빛.", choices: [{ text: "왜 그렇게 생각해요?", jumpTo: 26 }, { text: "저 아직 아무것도 안 했는데…", jumpTo: 26 }] },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "사람 말이나 분위기 오래 붙잡고 보는 타입 같거든." },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "그런 사람들이 결국 글 남겨." },
+      { type: 'dialogue', speaker: '안내', img: 'creativewriting.png', location: '문창과 작업실', text: "(잠깐 정적)" },
+      { type: 'dialogue', speaker: '???', img: 'creativewriting.png', location: '문창과 작업실', text: "와." },
+      { type: 'dialogue', speaker: '???', img: 'creativewriting.png', location: '문창과 작업실', text: "또 신입생 감성 잡고 있네." },
+      { type: 'dialogue', speaker: '안내', img: 'playwriting.png', location: '문창과 작업실', text: "(극작과 선배가 문에 기대 선다)" },
+      { type: 'dialogue', speaker: '극작과 선배', img: 'playwriting.png', location: '문창과 작업실', text: "안녕. 얘 원래 소설 얘기 시작하면 안 멈춰." },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "너는 사람만 보면 캐릭터 설정 짜잖아." },
+      { type: 'dialogue', speaker: '극작과 선배', img: 'playwriting.png', location: '문창과 작업실', text: "그건 직업병이지." },
+      { type: 'choice', speaker: '선배들의 티키타카', img: 'playwriting.png', location: '문창과 작업실', text: "두 선배 사이에 흐르는 미묘한 긴장감.", choices: [{ text: "두 분 친하세요?", jumpTo: 36 }, { text: "극작과는 어떤 과예요?", jumpTo: 37 }] },
+      { type: 'dialogue', speaker: '극작과 선배', img: 'playwriting.png', location: '문창과 작업실', text: "맨날 싸우는 정도로 친함.", nextIndex: 38 },
+      { type: 'dialogue', speaker: '극작과 선배', img: 'playwriting.png', location: '문창과 작업실', text: "이야기를 무대랑 화면으로 만드는 사람들이야." },
+      { type: 'dialogue', speaker: '극작과 선배', img: 'playwriting.png', location: '문창과 작업실', text: "대본 쓰고, 캐릭터 만들고, 장면 구성하고." },
+      { type: 'dialogue', speaker: '극작과 선배', img: 'playwriting.png', location: '문창과 작업실', text: "그래서 사람 관찰 엄청 많이 해." },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "쟤네는 대사로 밤새고." },
+      { type: 'dialogue', speaker: '극작과 선배', img: 'playwriting.png', location: '문창과 작업실', text: "너희는 문장 하나 붙잡고 밤새잖아." },
+      { type: 'dialogue', speaker: '안내', img: 'creativewriting.png', location: '문창과 작업실', text: "(둘이 익숙하게 웃는다)" },
+      { type: 'dialogue', speaker: '극작과 선배', img: 'playwriting.png', location: '문창과 작업실', text: "근데 얘 문장 진짜 좋긴 해." },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "갑자기 왜 칭찬해." },
+      { type: 'dialogue', speaker: '극작과 선배', img: 'playwriting.png', location: '문창과 작업실', text: "신입생 앞이라 이미지 관리." },
+      { type: 'dialogue', speaker: '안내', img: 'creativewriting.png', location: '문창과 작업실', text: "(문예창작과 선배가 피식 웃는다)" },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "근데 진짜 너는 문예창작과 잘 어울릴 거 같아." },
+      { type: 'choice', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "선배의 날카로운 안목 멘트 타임.", choices: [{ text: "왜요?", jumpTo: 49 }, { text: "갑자기요?", jumpTo: 49 }] },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "아까부터 글 읽는 눈빛이 달라졌거든." },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "사람 감정 오래 붙잡고 있는 타입 같아." },
+      { type: 'dialogue', speaker: '안내', img: 'creativewriting.png', location: '문창과 작업실', text: "(순간 가까워진 거리)" },
+      { type: 'dialogue', speaker: '극작과 선배', img: 'playwriting.png', location: '문창과 작업실', text: "와, 오늘 플러팅 수위 높은데." },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '문창과 작업실', text: "시끄러." },
+      { type: 'dialogue', speaker: '안내', img: 'creativewriting.png', location: '노을 지는 작업실', text: "(작업실 창밖으로 노을빛이 천천히 번진다)" },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '노을 지는 작업실', text: "오늘 학교 어땠어?" },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '노을 지는 작업실', text: "생각보다 재밌지 않았냐." },
+      { type: 'choice', speaker: '운명의 결정', img: 'creativewriting.png', location: '노을 지는 작업실', text: "노을빛이 원고지 위로 번진다. 나의 대답은?", choices: [{ text: "문예창작과 더 궁금해졌어요.", jumpTo: 58 }, { text: "극작과도 궁금해요.", jumpTo: 62 }] },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '노을 지는 작업실', text: "잘 생각했네." },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '노을 지는 작업실', text: "우리 과 오면 진짜 글로 밤새는 날 많을 거야." },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '노을 지는 작업실', text: "근데 내가 쓴 글로 누군가 감정 흔들리는 순간은… 진짜 안 잊혀." },
+      { type: 'dialogue', speaker: '안내', img: 'creativewriting.png', location: '노을 지는 작업실', text: "(선배가 웃으며 노트북을 닫는다)" },
+      { type: 'dialogue', speaker: '문창과 선배', img: 'creativewriting.png', location: '노을 지는 작업실', text: "다음엔 네 이야기 들려줘." },
+      { type: 'choice', speaker: 'END — 문예창작과 루트', img: 'creativewriting.png', location: '노을 지는 작업실', text: "문예창작과 선배의 문학적 뮤즈 엔딩 완료!", choices: [{ text: "문예창작과 입시 가이드 확인하기", jumpTo: "outro_creativewriting" }] },
+      { type: 'dialogue', speaker: '극작과 선배', img: 'playwriting.png', location: '노을 지는 작업실', text: "좋아. 그럼 다음엔 대본 작업실 투어다." },
+      { type: '문창과 선배', img: 'creativewriting.png', location: '노을 지는 작업실', text: "벌써 데려가네…" },
+      { type: 'choice', speaker: 'END — 극작과 루트 오픈', img: 'playwriting.png', location: '노을 지는 작업실', text: "극작과 시나리오 창작 필드가 오픈되었습니다.", choices: [{ text: "극작과 입시 가이드 확인하기", jumpTo: "outro_playwriting" }] }
+    ]
+  };
+
+  function startTest(){ currentQuestion = 0; selectedBranch = ''; scores = { creativewriting: 0, playwriting: 0 }; screenTransition('test'); loadQuestion(); }
+  
+  function loadQuestion(){
+    let q = (currentQuestion === 0) ? questions[0] : branchQuestions[selectedBranch];
+    questionText.innerHTML = q.question;
+    questionNumber.innerHTML = `QUESTION 0${currentQuestion + 1}`;
+    progressBar.style.width = `${((currentQuestion + 1) / 2) * 100}%`;
+    answerList.innerHTML = '';
+    q.answers.forEach(ans => {
+      const btn = document.createElement('button'); btn.classList.add('answer-btn'); btn.innerHTML = ans.text;
+      btn.onclick = () => {
+        if (currentQuestion === 0) { selectedBranch = ans.nextBranch; ans.types.forEach(t => scores[t]++); currentQuestion++; loadQuestion(); }
+        else { ans.types.forEach(t => scores[t] += 2); evaluateResult(); }
+      };
+      answerList.appendChild(btn);
+    });
+  }
+
+  function evaluateResult(){ 
+    screenTransition('result'); 
+    selectedRoute = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b); 
+    resultTitle.innerText = deptInfo[selectedRoute].title; 
+    resultDesc.innerHTML = deptInfo[selectedRoute].desc; 
+  }
+  
+  function startNovel(){ screenTransition('novel'); scriptIndex = 0; renderScene(); }
+
+  function renderScene() {
+    const currentScript = scriptData[selectedRoute][scriptIndex];
+    if(currentScript.img) { characterEl.src = `images/character/${currentScript.img}`; characterEl.style.opacity = (currentScript.speaker === '안내' || currentScript.speaker === '???') ? '0.3' : '1'; }
+    nameEl.innerText = currentScript.speaker; locationTag.innerText = currentScript.location; dialogueEl.innerHTML = currentScript.text;
+    if (currentScript.type === 'dialogue') { nextTip.style.display = 'block'; choicesEl.innerHTML = ''; }
+    else if (currentScript.type === 'choice') {
+      nextTip.style.display = 'none'; choicesEl.innerHTML = '';
+      currentScript.choices.forEach(ch => {
+        const btn = document.createElement('button'); btn.classList.add('choice-btn'); btn.innerText = ch.text;
+        btn.onclick = () => { 
+          if(ch.jumpTo === "outro_creativewriting") showOutro('creativewriting');
+          else if(ch.jumpTo === "outro_playwriting") showOutro('playwriting');
+          else { scriptIndex = ch.jumpTo; renderScene(); }
+        };
+        choicesEl.appendChild(btn);
+      });
+    }
+  }
+
+  function handleDialogueClick() {
+    const currentScript = scriptData[selectedRoute][scriptIndex];
+    if (currentScript.type === 'choice') return; 
+    if (currentScript.nextIndex !== undefined) scriptIndex = currentScript.nextIndex; else scriptIndex++;
+    if (scriptIndex < scriptData[selectedRoute].length) renderScene();
+  }
+
+  function showOutro(type) { screenTransition('outro'); const data = outroDetails[type]; outroType.innerText = data.type; outroTitle.innerText = data.title; outroInfo.innerHTML = data.html; }
+</script>
+</body>
+</html>
