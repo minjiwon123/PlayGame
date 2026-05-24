@@ -7,6 +7,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      href="https://fonts.googleapis.com/css2?family=Gaegu:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link
       href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
@@ -301,14 +305,15 @@
         position: absolute;
 
         left: 50%;
-        bottom: 16px;
+        bottom: 6px;
 
         transform: translateX(-50%);
 
         width: calc(100% - 24px);
 
-        padding: 16px;
-        padding-bottom: 20px;
+        height: 220px;
+
+        padding: 16px 18px 20px;
 
         background: linear-gradient(
           to top,
@@ -328,8 +333,6 @@
 
         display: flex;
         flex-direction: column;
-
-        max-height: 42%;
       }
       .name {
         font-size: 13px;
@@ -463,23 +466,87 @@
         color: #c084fc;
         font-size: 15px;
       }
+
+      .start-btn {
+        margin-top: 70vh;
+
+        padding: 16px 46px;
+
+        border-radius: 999px;
+
+        background: linear-gradient(135deg, #ffb7d5, #ff8fc2);
+
+        border: 1px solid rgba(255, 255, 255, 0.7);
+
+        color: white;
+
+        font-size: 22px;
+        font-weight: 600;
+
+        font-family: 'Gaegu', cursive;
+
+        letter-spacing: 1px;
+
+        text-shadow: 0 2px 10px rgba(255, 255, 255, 0.45);
+
+        box-shadow: 0 10px 30px rgba(255, 105, 180, 0.28);
+
+        transition: 0.25s ease;
+      }
+
+      .start-btn:hover {
+        transform: translateY(-3px) scale(1.04);
+
+        background: linear-gradient(135deg, #ffc6e0, #ff9dcb);
+
+        box-shadow: 0 14px 35px rgba(255, 105, 180, 0.35);
+      }
+
+      .start-btn:hover {
+        transform: translateY(-2px) scale(1.03);
+
+        background: rgba(255, 255, 255, 0.22);
+      }
+
+      .start-btn,
+
+/* 타로 */
+      #tarotScreen,
+      #tarotScreen button,
+      #tarotScreen .opening-title,
+      #tarotScreen .opening-sub,
+      .tarot-card,
+      .tarot-front,
+      .tarot-back,
+      .tarot-title,
+      .tarot-desc,
+      #tarotResult,
+      #tarotResult strong,
+
+/* 테스트 */
+      .question,
+      .question-number,
+      .answer-btn,
+
+/* 결과 화면 */
+      #resultScreen,
+      #resultScreen .opening-sub,
+      #resultScreen .result-title,
+      #resultScreen .result-desc,
+      #resultScreen .main-btn,
+
+/* 다시하기 버튼 */
+      .restart-btn {
+        font-family: 'Gaegu', cursive;
+      }
     </style>
   </head>
   <body>
     <div id="app-container">
       <!-- 오프닝 -->
       <section class="screen active" id="openingScreen">
-        <div class="opening-title">
-          서울예술대학교<br /><span style="color: var(--primary)"
-            >2027 캠퍼스 시뮬레이션</span
-          >
-        </div>
-        <div class="opening-sub">
-          단순한 홍보가 아닌, 설레는 만남.<br />당신의 선배가 캠퍼스에서
-          기다리고 있습니다.
-        </div>
-        <button class="main-btn" onclick="startTarot()">
-          성향 분석 & 입장하기
+        <button class="main-btn start-btn" onclick="startTarot()">
+          Start♥
         </button>
       </section>
 
@@ -603,7 +670,7 @@
           >
 
           <button
-            class="main-btn"
+            class="main-btn restart-btn"
             style="margin: 12px auto 0 auto; height: 46px; line-height: 46px"
             onclick="location.reload()"
           >
@@ -9657,6 +9724,13 @@
       }
 
       function startTarot() {
+        const bgm = document.getElementById('bgm');
+
+        bgm.volume = 0.35;
+
+        bgm.play().catch(() => {
+          console.log('브금 재생 실패');
+        });
         // opening 화면 숨기기
         screens.opening.classList.remove('active');
 
@@ -9735,6 +9809,34 @@
 
         startTest();
       }
+      document.addEventListener(
+        'click',
+        () => {
+          const bgm = document.getElementById('bgm');
+
+          if (bgm.paused) {
+            bgm.volume = 0;
+
+            bgm.play();
+
+            let volume = 0;
+
+            const fadeIn = setInterval(() => {
+              if (volume < 0.35) {
+                volume += 0.01;
+
+                bgm.volume = volume;
+              } else {
+                clearInterval(fadeIn);
+              }
+            }, 120);
+          }
+        },
+        { once: true },
+      );
     </script>
+    <audio id="bgm" autoplay loop>
+      <source src="music/opening.mp3" type="audio/mp3" />
+    </audio>
   </body>
 </html>
