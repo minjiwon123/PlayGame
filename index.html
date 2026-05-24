@@ -468,7 +468,13 @@
       }
 
       .start-btn {
-        margin-top: 70vh;
+        position: absolute;
+
+        top: 60px;
+
+        left: 50%;
+
+        transform: translateX(-50%);
 
         padding: 16px 46px;
 
@@ -9767,6 +9773,7 @@
                 `;
 
           card.onclick = () => {
+            playClickSound();
             if (
               card.classList.contains('flipped') ||
               selectedTarots.length >= 3
@@ -9834,9 +9841,26 @@
         },
         { once: true },
       );
+      function playClickSound() {
+        const sound = document.getElementById('clickSound');
+
+        sound.currentTime = 0;
+
+        sound.volume = 0.45;
+
+        sound.play();
+      }
+      document.querySelectorAll('button').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          playClickSound();
+        });
+      });
     </script>
     <audio id="bgm" autoplay loop>
       <source src="music/opening.mp3" type="audio/mp3" />
+    </audio>
+    <audio id="clickSound">
+      <source src="sfx/click.mp3" type="audio/mp3" />
     </audio>
   </body>
 </html>
