@@ -134,8 +134,11 @@
       }
       .main-btn {
         width: 100%;
-        max-width: 280px;
-        height: 54px;
+        max-width: 300px;
+
+        min-height: 62px;
+
+        padding: 18px 28px;
 
         border: 2px solid rgba(255, 255, 255, 0.8);
 
@@ -145,7 +148,7 @@
 
         color: white;
 
-        font-size: 15px;
+        font-size: 16px;
         font-weight: 700;
 
         cursor: pointer;
@@ -153,9 +156,15 @@
         box-shadow: 0 8px 20px rgba(255, 143, 177, 0.35);
 
         transition: 0.25s;
+        -webkit-tap-highlight-color: transparent;
       }
       .main-btn:hover {
         transform: translateY(-2px) scale(1.02);
+      }
+      .main-btn:active {
+        transform: translateY(-2px) scale(1.02);
+
+        filter: brightness(1.05);
       }
       .test-container {
         width: 100%;
@@ -208,6 +217,11 @@
       }
       .answer-btn:hover {
         background: var(--hover);
+      }
+      .answer-btn:active {
+        background: var(--hover);
+
+        transform: scale(0.98);
       }
 
       .result-box {
@@ -263,6 +277,11 @@
       }
       .link-btn:hover {
         background: var(--hover);
+      }
+      .link-btn:active {
+        background: var(--hover);
+
+        transform: scale(0.98);
       }
 
       .top-ui {
@@ -389,6 +408,11 @@
       .choice-btn:hover {
         background: var(--hover);
       }
+      .choice-btn:active {
+        background: var(--hover);
+
+        transform: scale(0.98);
+      }
       @keyframes blink {
         0%,
         100% {
@@ -401,13 +425,13 @@
       .tarot-container {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 14px;
-        margin-top: 30px;
+        gap: 10px;
+        margin-top: 14px;
         justify-items: center;
       }
       .tarot-card {
-        width: 78px;
-        height: 125px;
+        width: 70px;
+        height: 112px;
         border-radius: 16px;
         background: linear-gradient(135deg, #1e1b4b, #7c3aed);
         cursor: pointer;
@@ -418,8 +442,12 @@
       }
 
       #tarotScreen {
-        justify-content: flex-start;
-        padding-top: 40px;
+        justify-content: center;
+
+        padding-top: 20px;
+        padding-bottom: 20px;
+
+        gap: 12px;
       }
 
       .tarot-card.flipped {
@@ -454,9 +482,13 @@
       }
 
       #tarotResult {
-        margin-top: 24px;
-        font-size: 13px;
-        line-height: 1.7;
+        margin-top: 8px;
+
+        font-size: 11px;
+
+        line-height: 1.4;
+        max-width: 320px;
+
         text-align: center;
         color: #111827;
         text-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
@@ -516,33 +548,36 @@
 
       .start-btn,
 
-/* 타로 */
-      #tarotScreen,
-      #tarotScreen button,
-      #tarotScreen .opening-title,
-      #tarotScreen .opening-sub,
-      .tarot-card,
-      .tarot-front,
-      .tarot-back,
-      .tarot-title,
-      .tarot-desc,
-      #tarotResult,
-      #tarotResult strong,
+      /* 타로 */
+            #tarotScreen,
+            #tarotScreen button,
+            #tarotScreen .opening-title,
+            #tarotScreen .opening-sub,
+            .tarot-card,
+            .tarot-front,
+            .tarot-back,
+            .tarot-title,
+            .tarot-desc,
+            #tarotResult,
+            #tarotResult strong,
 
-/* 테스트 */
-      .question,
-      .question-number,
-      .answer-btn,
+      /* 테스트 */
+            .question,
+            .question-number,
+            .answer-btn,
 
-/* 결과 화면 */
-      #resultScreen,
-      #resultScreen .opening-sub,
-      #resultScreen .result-title,
-      #resultScreen .result-desc,
-      #resultScreen .main-btn,
+      /* 결과 화면 */
+            #resultScreen,
+            #resultScreen .opening-sub,
+            #resultScreen .result-title,
+            #resultScreen .result-desc,
+            #resultScreen .main-btn,
+            #resultScreen .link-btn,
 
-/* 다시하기 버튼 */
-      .restart-btn {
+
+
+      /* 다시하기 버튼 */
+            .restart-btn {
         font-family: 'Gaegu', cursive;
       }
     </style>
@@ -569,6 +604,7 @@
         <button
           class="main-btn"
           id="tarotNextBtn"
+          style="display: none; margin-top: 6px"
           style="display: none"
           onclick="goToTest()"
         >
@@ -618,10 +654,30 @@
           </div>
           <button
             class="main-btn"
-            style="margin: 0 auto"
+            style="margin: 0 auto 10px auto"
             onclick="startNovel()"
           >
             캠퍼스 문 열기
+          </button>
+
+          <button class="link-btn" onclick="openDeptSelect()">
+            다른 과 둘러보기
+          </button>
+        </div>
+      </section>
+
+      <section class="screen" id="deptSelectScreen">
+        <div class="result-box">
+          <div class="result-title">둘러보고 싶은 학과 선택</div>
+
+          <div class="answer-list" id="deptList"></div>
+
+          <button
+            class="main-btn restart-btn"
+            style="margin-top: 16px"
+            onclick="closeDeptSelect()"
+          >
+            돌아가기
           </button>
         </div>
       </section>
@@ -677,7 +733,7 @@
 
           <button
             class="main-btn restart-btn"
-            style="margin: 12px auto 0 auto; height: 46px; line-height: 46px"
+            style="margin: 12px auto 0 auto"
             onclick="location.reload()"
           >
             처음부터 다시 하기
@@ -693,6 +749,7 @@
         result: document.getElementById('resultScreen'),
         novel: document.getElementById('novelScreen'),
         outro: document.getElementById('outroScreen'),
+        deptSelect: document.getElementById('deptSelectScreen'),
       };
       const questionText = document.getElementById('questionText'),
         answerList = document.getElementById('answerList'),
@@ -711,9 +768,8 @@
         outroInfo = document.getElementById('outroInfo'),
         outroType = document.getElementById('outroType');
 
-      let currentQuestion = 0,
-        scriptIndex = 0,
-        selectedRoute = '';
+      let currentQuestion = 'start';
+      ((scriptIndex = 0), (selectedRoute = ''));
       let selectedTarots = [];
       let scores = {
         theatre: 0,
@@ -796,119 +852,205 @@
         },
       ];
 
-      // 🌸 [성향 테스트 구조 최적화] 복잡도를 대폭 낮춘 정밀한 2단계 유동형 질문 트리 구조로 변경
-      const questions = [
-        {
-          question:
-            '놀이공원에 간 당신. 연인이 “우리 뭐부터 할까?”라고 묻자 당신은?',
+      const questions = {
+        start: {
+          question: '당신이 가장 끌리는 순간은?',
+
           answers: [
             {
-              text: '“일단 지도부터 보자.”',
-              types: ['artsmanagement', 'spacedesign'],
+              text: '사람들의 시선이 나에게 집중되는 순간',
+              next: 'perform',
             },
+
             {
-              text: '“야간 퍼레이드 시간 맞춰 움직이면 예쁠 듯.”',
-              types: ['photo', 'film', 'visualdesign'],
+              text: '머릿속 이미지를 직접 만들어내는 순간',
+              next: 'visual',
             },
+
             {
-              text: '“일단 제일 재밌어 보이는 거 타자!”',
-              types: ['acting', 'dance', 'practicalmusic'],
+              text: '이야기를 만들고 감정을 전하는 순간',
+              next: 'story',
             },
+
             {
-              text: '“잠깐, 이런 상황 영화 첫 장면 같지 않냐?”',
-              types: ['creativewriting', 'playwriting', 'advertising'],
+              text: '사람과 콘텐츠를 움직이는 순간',
+              next: 'content',
             },
           ],
         },
 
-        {
-          question: '새벽 2시, 친구가 갑자기 고민 상담 전화를 했습니다.',
+        perform: {
+          question: '당신은 어떤 방식으로 자신을 표현하고 싶나요?',
+
           answers: [
             {
-              text: '“일단 왜 그런 상황이 된 건데?”',
-              types: ['artsmanagement', 'advertising'],
+              text: '감정과 표정으로 몰입시키기',
+              next: 'acting_theatre',
             },
+
             {
-              text: '조용히 끝까지 들어준다.',
-              types: ['creativewriting', 'acting', 'koreanmusic'],
+              text: '몸의 움직임으로 표현하기',
+              result: 'dance',
             },
+
             {
-              text: '“밖에 나올래? 바람 쐬자.”',
-              types: ['dance', 'broadcast', 'film'],
-            },
-            {
-              text: '머릿속으로 그 장면을 상상한다.',
-              types: ['photo', 'digitalart', 'visualdesign'],
+              text: '음악과 소리로 분위기를 만들기',
+              next: 'music',
             },
           ],
         },
 
-        {
-          question: '카페에 갔는데 창가 자리가 하나 남아 있습니다. 당신은?',
+        acting_theatre: {
+          question: '당신이 더 끌리는 무대는?',
+
           answers: [
             {
-              text: '채광이 어떻게 들어오는지부터 본다.',
-              types: ['spacedesign', 'photo', 'film'],
+              text: '캐릭터가 되어 감정을 표현하는 무대',
+
+              result: 'acting',
             },
+
             {
-              text: '사람들이 어떻게 앉아 있는지 구경한다.',
-              types: ['playwriting', 'creativewriting', 'acting'],
-            },
-            {
-              text: '음악이나 분위기를 먼저 느낀다.',
-              types: ['practicalmusic', 'koreanmusic', 'dance'],
-            },
-            {
-              text: '“여기서 뭘 하면 재밌을까?”를 먼저 생각한다.',
-              types: ['advertising', 'artsmanagement', 'broadcast'],
+              text: '무대 전체와 장면을 만드는 공연',
+
+              result: 'theatre',
             },
           ],
         },
 
-        {
-          question: '과제를 해야 하는데 팀플 분위기가 너무 조용하다. 당신은?',
-          answers: [
-            {
-              text: '분위기 정리하면서 역할 분배부터 한다.',
-              types: ['artsmanagement', 'advertising'],
-            },
-            {
-              text: '재밌는 아이디어 하나 던져본다.',
-              types: ['broadcast', 'film', 'playwriting'],
-            },
-            {
-              text: '조용히 작업물 퀄리티부터 올린다.',
-              types: ['visualdesign', 'digitalart', 'photo'],
-            },
-            {
-              text: '사람들 반응부터 살핀다.',
-              types: ['acting', 'creativewriting', 'dance'],
-            },
-          ],
-        },
+        music: {
+          question: '당신이 더 끌리는 음악은?',
 
-        {
-          question: '하루가 끝난 뒤 가장 오래 기억에 남는 건?',
           answers: [
             {
-              text: '사람이 했던 말투나 표정',
-              types: ['creativewriting', 'playwriting', 'acting'],
+              text: '자유롭고 트렌디한 음악',
+
+              result: 'practicalmusic',
             },
+
             {
-              text: '빛, 색감, 분위기',
-              types: ['photo', 'visualdesign', 'film'],
-            },
-            {
-              text: '현장의 공기와 에너지',
-              types: ['dance', 'broadcast', 'practicalmusic'],
-            },
-            {
-              text: '전체 흐름이나 구성',
-              types: ['artsmanagement', 'advertising', 'spacedesign'],
+              text: '깊은 울림과 전통적인 감성',
+
+              result: 'koreanmusic',
             },
           ],
         },
-      ];
+        visual: {
+          question: '어떤 결과물을 만들고 싶나요?',
+
+          answers: [
+            {
+              text: '사진이나 영상처럼 장면을 담는 작업',
+              next: 'photo_video',
+            },
+
+            {
+              text: '그래픽과 비주얼을 디자인하는 작업',
+              next: 'design',
+            },
+
+            {
+              text: '공간과 분위기를 직접 설계하는 작업',
+              result: 'spacedesign',
+            },
+          ],
+        },
+        photo_video: {
+          question: '당신이 더 만들고 싶은 것은?',
+
+          answers: [
+            {
+              text: '한순간의 분위기와 감정을 담은 장면',
+              result: 'photo',
+            },
+
+            {
+              text: '영화 같은 장면과 연출',
+              result: 'film',
+            },
+
+            {
+              text: '사람들에게 보여질 콘텐츠와 영상',
+              result: 'broadcast',
+            },
+          ],
+        },
+        story: {
+          question: '당신은 어떤 방식으로 이야기를 만들고 싶나요?',
+
+          answers: [
+            {
+              text: '글과 문장으로 감정을 전하고 싶다',
+              next: 'writing',
+            },
+
+            {
+              text: '사람들의 기억에 남는 아이디어를 만들고 싶다',
+              result: 'advertising',
+            },
+          ],
+        },
+        writing: {
+          question: '당신이 더 쓰고 싶은 것은?',
+
+          answers: [
+            {
+              text: '소설, 시, 에세이 같은 글',
+              result: 'creativewriting',
+            },
+
+            {
+              text: '대사와 장면 중심의 이야기',
+              result: 'playwriting',
+            },
+          ],
+        },
+        content: {
+          question: '당신은 어떤 역할이 더 끌리나요?',
+
+          answers: [
+            {
+              text: '직접 콘텐츠를 만들고 제작하기',
+              next: 'content_make',
+            },
+
+            {
+              text: '공연, 전시, 축제를 운영하고 움직이기',
+              result: 'artsmanagement',
+            },
+          ],
+        },
+        content_make: {
+          question: '당신이 더 만들고 싶은 콘텐츠는?',
+
+          answers: [
+            {
+              text: '영상 콘텐츠와 촬영 작업',
+              result: 'broadcast',
+            },
+
+            {
+              text: '브랜드와 광고 콘텐츠',
+              result: 'advertising',
+            },
+          ],
+        },
+        design: {
+          question: '당신이 더 끌리는 작업은?',
+
+          answers: [
+            {
+              text: '포스터, 브랜딩, 그래픽 디자인',
+              result: 'visualdesign',
+            },
+
+            {
+              text: '캐릭터, 3D, 디지털 세계관 제작',
+              result: 'digitalart',
+            },
+          ],
+        },
+      };
 
       const deptInfo = {
         theatre: {
@@ -1100,7 +1242,7 @@
           },
           {
             type: 'choice',
-            speaker: '연극과 선배',
+            speaker: '안내',
             img: 'theatre.png',
             location: '빨간 계단',
             text: '갑자기 멈춰 서서 나를 흘겨보는 선배.',
@@ -1114,7 +1256,7 @@
             speaker: '연극과 선배',
             img: 'theatre.png',
             location: '빨간 계단',
-            text: '흐흐, 긴장 엄청 했네. 근데 이해는 간다. 여기 처음 오면 좀 정신없거든.',
+            text: '긴장 엄청 했구나? 근데 이해는 간다. 여기 처음 오면 좀 정신없거든.',
           },
           {
             type: 'dialogue',
@@ -1132,13 +1274,13 @@
           },
           {
             type: 'choice',
-            speaker: '연극과 선배',
+            speaker: '안내',
             img: 'theatre.png',
             location: '빨간 계단',
             text: '설레는 제안에 나의 생각은?',
             choices: [
-              { text: '민폐 아닌가요?', jumpTo: 6 },
-              { text: '좋아요.', jumpTo: 6 },
+              { text: '아... 민폐 아닌가요?', jumpTo: 6 },
+              { text: '그래도 될까요? 좋아요.', jumpTo: 6 },
             ],
           },
           {
@@ -1164,7 +1306,7 @@
           },
           {
             type: 'choice',
-            speaker: '연극과 선배',
+            speaker: '안내',
             img: 'theatre.png',
             location: '예장극장 외부',
             text: '고개를 갸웃하며 묻는 선배.',
@@ -1229,11 +1371,11 @@
             speaker: '연극과 선배',
             img: 'theatre.png',
             location: '예장극장 내부',
-            text: '근데 이상하게 다들 안 그만둬. 공연 끝나고 박수 들리는 순간이 진짜 미치게 좋거든.',
+            text: '근데 이상하게 다들 안 그만둔다? 공연 끝나고 박수 들리는 순간이 진짜 미치게 좋거든.',
           },
           {
             type: 'choice',
-            speaker: '연극과 선배',
+            speaker: '안내',
             img: 'theatre.png',
             location: '예장극장 내부',
             text: '무대를 바라보는 선배의 눈빛이 빛난다. 나의 답은?',
@@ -1265,7 +1407,7 @@
           },
           {
             type: 'choice',
-            speaker: '연극과 선배',
+            speaker: '안내',
             img: 'theatre.png',
             location: '예장극장 내부',
             text: '두근거리는 이름 질문 타임.',
@@ -1307,7 +1449,7 @@
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
             location: '예장극장 내부',
-            text: '안녕. 연극과만 돌면 섭하지. 우리 과 체험도 해봐야지.',
+            text: '안녕. 연극과만 돌면 섭하지 않겠어? 우리 과는 어때.',
           },
           {
             type: 'dialogue',
@@ -1347,7 +1489,7 @@
             speaker: '연극과 선배',
             img: 'theatre.png',
             location: '예장극장 내부',
-            text: '안 친함.',
+            text: '뭐래, 안 친하잖아. ㅋㅋ',
           },
           /* 33 */ {
             type: 'dialogue',
@@ -1361,7 +1503,7 @@
             speaker: '연극과 선배',
             img: 'theatre.png',
             location: '예장극장 내부',
-            text: '…시끄러.',
+            text: '네, 다음 헛소리~',
           },
           /* 35 */ {
             type: 'dialogue',
@@ -1375,7 +1517,7 @@
             speaker: '연극과 선배',
             img: 'theatre.png',
             location: '예장극장 내부',
-            text: '쟤네는 진짜 잠을 안 자.',
+            text: '쟤네는 진짜 잠을 안 자더라.',
           },
           /* 37 */ {
             type: 'dialogue',
@@ -1403,11 +1545,11 @@
             speaker: '연극과 선배',
             img: 'theatre.png',
             location: '예장극장 내부',
-            text: '근데 진짜 너는 무대 조명 잘 받을 거 같아. 사람 시선 끄는 타입이거든.',
+            text: '근데 너 아까부터 무대 볼 때 시선이 안 흔들리더라. 그런 사람들 있거든. 한번 집중하면 끝까지 빨려 들어가는 타입이지?',
           },
           /* 41 */ {
             type: 'choice',
-            speaker: '연극과 선배',
+            speaker: '안내',
             img: 'theatre.png',
             location: '예장극장 내부',
             text: '지그시 나를 쳐다보며 말하는 선배의 진심.',
@@ -1456,14 +1598,14 @@
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
             location: '캠퍼스 광장',
-            text: '그래서 어때, 서울예대.',
+            text: '그래서 어때, 서울예대는?',
           },
           /* 48 */ {
             type: 'dialogue',
             speaker: '연극과 선배',
             img: 'theatre.png',
             location: '캠퍼스 광장',
-            text: '생각보다 마음에 들지 않냐?',
+            text: '생각보다 마음에 들지 않아?',
           },
           /* 49 */ {
             type: 'choice',
@@ -1554,7 +1696,7 @@
           },
           /* 2 */ {
             type: 'choice',
-            speaker: '방송영상과 선배',
+            speaker: '안내',
             img: 'broadcast.png',
             location: '계단 난간',
             text: '렌즈를 닦으며 나를 흘낏 쳐다보는 선배.',
@@ -1579,13 +1721,13 @@
           },
           /* 5 */ {
             type: 'choice',
-            speaker: '방송영상과 선배',
+            speaker: '안내',
             img: 'broadcast.png',
             location: '계단 난간',
             text: '선배의 말에 나의 대답은?',
             choices: [
               { text: '촬영 구경해도 돼요?', jumpTo: 6 },
-              { text: '안 방해되나요?', jumpTo: 6 },
+              { text: '방해되지 않을까요?', jumpTo: 6 },
             ],
           },
           /* 6 */ {
@@ -1628,7 +1770,7 @@
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
             location: '스튜디오 내부',
-            text: '딱 봐도 chaos지?',
+            text: '딱 봐도 정신없지?',
           },
           /* 12 */ {
             type: 'dialogue',
@@ -1642,11 +1784,11 @@
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
             location: '스튜디오 내부',
-            text: '방송영상과는 진짜 몸 갈아 넣는 과야. 촬영 뛰고, 편집하고, 밤새고… 거의 학교에서 살아.',
+            text: '방송영상과는 진짜 몸 갈아 넣는 과야. 촬영 뛰고, 편집하고, 밤새고… 거의 학교에서 살거든.',
           },
           /* 14 */ {
             type: 'choice',
-            speaker: '방송영상과 선배',
+            speaker: '안내',
             img: 'broadcast.png',
             location: '스튜디오 내부',
             text: '분주한 현장을 가리키며 선배가 미소 짓는다.',
@@ -1660,14 +1802,14 @@
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
             location: '스튜디오 내부',
-            text: '힘든 건 맞는데 결과물 하나 잘 나오면 진짜 짜릿하거든.',
+            text: '힘든 건 맞는데 결과물 하나 잘 나오면 진짜 짜릿하다?',
           },
           /* 16 */ {
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
             location: '스튜디오 내부',
-            text: '특히 다 같이 밤새고 마지막 렌더 돌릴 때 그 기분이 이상해.',
+            text: '특히 다 같이 밤새고 마지막 렌더 돌릴 때 그 기분이, 기분이 이상해.',
           },
           /* 17 */ {
             type: 'dialogue',
@@ -1692,7 +1834,7 @@
           },
           /* 20 */ {
             type: 'choice',
-            speaker: '방송영상과 선배',
+            speaker: '안내',
             img: 'broadcast.png',
             location: '스튜디오 내부',
             text: '내 눈앞으로 뷰파인더가 슥 다가온다.',
@@ -1733,7 +1875,7 @@
           },
           /* 25 */ {
             type: 'choice',
-            speaker: '방송영상과 선배',
+            speaker: '안내',
             img: 'broadcast.png',
             location: '스튜디오 내부',
             text: '기습 플래시에 깜짝 놀란 나.',
@@ -1761,7 +1903,7 @@
             speaker: '안내',
             img: 'broadcast.png',
             location: '스튜디오 내부',
-            text: '(순간 거리 가까워짐)',
+            text: '(순간 거리가 가까워진다)',
           },
           /* 29 */ {
             type: 'dialogue',
@@ -1775,7 +1917,7 @@
             speaker: '???',
             img: 'broadcast.png',
             location: '스튜디오 내부',
-            text: '진짜 작업 건다.',
+            text: '진짜 작업 걸어?',
           },
           /* 31 */ {
             type: 'dialogue',
@@ -1796,14 +1938,14 @@
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
             location: '스튜디오 내부',
-            text: '질투?',
+            text: '티 많이 나?',
           },
           /* 34 */ {
             type: 'dialogue',
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
             location: '스튜디오 내부',
-            text: '아니. 너무 티 나서.',
+            text: '오글거려서 뭐 올라올 뻔했잖아.',
           },
           /* 35 */ {
             type: 'choice',
@@ -1828,14 +1970,14 @@
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
             location: '스튜디오 내부',
-            text: '맨날 작업실에서 마주치면서?',
+            text: '또, 또 저런다.',
           },
           /* 38 */ {
             type: 'dialogue',
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
             location: '스튜디오 내부',
-            text: '…시끄러.',
+            text: '(무시)',
             nextIndex: 43,
           },
           /* 39 */ {
@@ -1857,7 +1999,7 @@
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
             location: '스튜디오 내부',
-            text: '근데 결과물은 제일 예쁘긴 해.',
+            text: '근데 결과물은 제일 예쁘긴 하니까.',
           },
           /* 42 */ {
             type: 'dialogue',
@@ -1882,7 +2024,7 @@
           },
           /* 45 */ {
             type: 'choice',
-            speaker: '방송영상과 선배',
+            speaker: '안내',
             img: 'broadcast.png',
             location: '스튜디오 내부',
             text: '다시 한번 지그시 쳐다보며 던지는 스윗한 멘트.',
@@ -1931,14 +2073,14 @@
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
             location: '노을 지는 강의실 창가',
-            text: '오늘 School 어땠어?',
+            text: '오늘 서울예대 어땠어?',
           },
           /* 52 */ {
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
             location: '노을 지는 강의실 창가',
-            text: '생각보다 재밌지 않았냐.',
+            text: '생각보다 재밌지 않았나.',
           },
           /* 53 */ {
             type: 'choice',
@@ -2041,14 +2183,14 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'visualdesign.png',
-            location: '미술동 복도',
+            location: '작업실',
             text: '(복도 끝 작업실 문틈 사이로 불빛이 새어나온다)',
           },
           /* 1 */ {
             type: 'dialogue',
             speaker: '안내',
             img: 'visualdesign.png',
-            location: '미술동 복도',
+            location: '작업실',
             text: '(안쪽에서는 키보드 소리와 마우스 클릭 소리가 잔잔하게 들린다)',
           },
           /* 2 */ {
@@ -2067,7 +2209,7 @@
           },
           /* 4 */ {
             type: 'choice',
-            speaker: '시각디자인과 선배',
+            speaker: '안내',
             img: 'visualdesign.png',
             location: '작업실',
             text: '조용히 열린 문 사이로 선배의 눈빛이 마주쳤다.',
@@ -2099,7 +2241,7 @@
           },
           /* 8 */ {
             type: 'choice',
-            speaker: '시각디자인과 선배',
+            speaker: '안내',
             img: 'visualdesign.png',
             location: '작업실',
             text: '조심스럽게 선배의 옆자리를 바라본다.',
@@ -2138,7 +2280,7 @@
           },
           /* 13 */ {
             type: 'choice',
-            speaker: '시각디자인과 선배',
+            speaker: '안내',
             img: 'visualdesign.png',
             location: '작업실',
             text: '작업대 위의 화려한 결과물들을 둘러본 나의 감상은?',
@@ -2184,7 +2326,7 @@
           },
           /* 19 */ {
             type: 'choice',
-            speaker: '시각디자인과 선배',
+            speaker: '안내',
             img: 'visualdesign.png',
             location: '작업실',
             text: '엄청난 퀄리티의 타이포 브랜딩 시안. 나의 한마디는?',
@@ -2223,7 +2365,7 @@
           },
           /* 24 */ {
             type: 'choice',
-            speaker: '시각디자인과 선배',
+            speaker: '안내',
             img: 'visualdesign.png',
             location: '작업실',
             text: '갑작스러운 눈맞춤 and 칭찬 세례에 나는...',
@@ -2300,7 +2442,7 @@
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
             location: '작업실',
-            text: '시끄러.',
+            text: '조용히 해라.',
           },
           /* 35 */ {
             type: 'choice',
@@ -2332,7 +2474,7 @@
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
             location: '작업실',
-            text: '…그건 작업하다가 우연히 마주친 거고.',
+            text: '그건 작업하다가 우연히 마주친 거고.',
             nextIndex: 40,
           },
           /* 39 */ {
@@ -2354,7 +2496,7 @@
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
             location: '작업실',
-            text: '쟤네는 낭만으로 밤새는 인간들임.',
+            text: '쟤네는 낭만으로 밤새는 인간들이야.',
           },
           /* 42 */ {
             type: 'dialogue',
@@ -2368,7 +2510,7 @@
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
             location: '작업실',
-            text: '우린 디테일에 미친 인간들.',
+            text: '우린 디테일에 미친 인간들이지.',
           },
           /* 44 */ {
             type: 'dialogue',
@@ -2386,7 +2528,7 @@
           },
           /* 46 */ {
             type: 'choice',
-            speaker: '시각디자인과 선배',
+            speaker: '안내',
             img: 'visualdesign.png',
             location: '작업실',
             text: '갑자기 목소리 톤을 낮추며 집중하는 선배.',
@@ -2400,7 +2542,7 @@
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
             location: '작업실',
-            text: '뭔가 오래 바라보게 만드는 느낌 있거든.',
+            text: '뭔가 오래 바라보게 만드는 느낌이 있거든.',
           },
           /* 48 */ {
             type: 'dialogue',
@@ -2563,7 +2705,7 @@
           },
           /* 4 */ {
             type: 'choice',
-            speaker: '공간디자인과 선배',
+            speaker: '안내',
             img: 'spacedesign.png',
             location: '작업실',
             text: '나무 향이 은은하게 퍼지는 작업실에서...',
@@ -2588,6 +2730,7 @@
           },
           /* 7 */ {
             type: 'dialogue',
+            speaker: '안내',
             img: 'spacedesign.png',
             location: '작업실',
             text: '(작업대 위에는 미니어처 건물과 도면들이 어지럽게 펼쳐져 있다)',
@@ -2601,7 +2744,7 @@
           },
           /* 9 */ {
             type: 'choice',
-            speaker: '공간디자인과 선배',
+            speaker: '안내',
             img: 'spacedesign.png',
             location: '작업실',
             text: '정밀하게 짜인 도면과 건축 모형들을 마주한 나의 멘트는?',
@@ -2647,7 +2790,7 @@
           },
           /* 15 */ {
             type: 'choice',
-            speaker: '공간디자인과 선배',
+            speaker: '안내',
             img: 'spacedesign.png',
             location: '작업실',
             text: '모형 내부의 은은한 LED 조명이 켜지자 감탄이 나왔다.',
@@ -2700,7 +2843,7 @@
           },
           /* 22 */ {
             type: 'choice',
-            speaker: '공간디자인과 선배',
+            speaker: '안내',
             img: 'spacedesign.png',
             location: '노을 지는 강의실 창가',
             text: '창밖 야경을 웅장하게 응시하는 선배. 나의 멘트는?',
@@ -2869,7 +3012,7 @@
           },
           /* 45 */ {
             type: 'choice',
-            speaker: '공간디자인과 선배',
+            speaker: '안내',
             img: 'spacedesign.png',
             location: '작업실',
             text: '다시 진지하게 나의 눈을 보며 말하는 선배.',
@@ -3060,7 +3203,7 @@
           },
           {
             type: 'choice',
-            speaker: '무용과 선배',
+            speaker: '안내',
             img: 'dance.png',
             location: '연습실',
             text: '거울 너머로 고개를 돌려 물어보는 선배.',
@@ -3092,7 +3235,7 @@
           },
           {
             type: 'choice',
-            speaker: '무용과 선배',
+            speaker: '안내',
             img: 'dance.png',
             location: '연습실',
             text: '선배의 영롱한 기운에 나는 압도되었다.',
@@ -3152,7 +3295,7 @@
           },
           {
             type: 'choice',
-            speaker: '무용과 선배',
+            speaker: '안내',
             img: 'dance.png',
             location: '연습실',
             text: '선배의 손등에 남은 연습의 흔적들.',
@@ -3198,7 +3341,7 @@
           },
           {
             type: 'choice',
-            speaker: '무용과 선배',
+            speaker: '안내',
             img: 'dance.png',
             location: '연습실',
             text: '갑작스러운 실기 질문.',
@@ -3288,7 +3431,7 @@
           },
           {
             type: 'choice',
-            speaker: '무용과 선배',
+            speaker: '안내',
             img: 'dance.png',
             location: '연습실',
             text: '눈앞에서 펼쳐진 독무대의 여운.',
@@ -3444,7 +3587,7 @@
           },
           /* 55 */ {
             type: 'choice',
-            speaker: '무용과 선배',
+            speaker: '안내',
             img: 'dance.png',
             location: '연습실',
             text: '다시 진지하게 나를 돌아보는 무용과 선배.',
@@ -3606,14 +3749,14 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'acting.png',
-            location: '창작동 복도',
+            location: '연습실',
             text: '(캠퍼스를 걷던 중, 멀리서 누군가 대사 연습하는 소리가 들린다)',
           },
           {
             type: 'dialogue',
             speaker: '안내',
             img: 'acting.png',
-            location: '창작동 복도',
+            location: '연습실',
             text: '(노을 지는 강의실 창가 문틈 사이로 조명이 새어나온다)',
           },
           {
@@ -3632,7 +3775,7 @@
           },
           {
             type: 'choice',
-            speaker: '연기과 선배',
+            speaker: '안내',
             img: 'acting.png',
             location: '연습실',
             text: '장난기 넘치는 강렬한 눈빛과 마주쳤다.',
@@ -3664,12 +3807,12 @@
           },
           {
             type: 'choice',
-            speaker: '연기과 선배',
+            speaker: '연습실',
             img: 'acting.png',
             location: '연습실',
             text: '선배의 예리한 관찰력.',
             choices: [
-              { text: '네.', jumpTo: 9 },
+              { text: '네. 들켰네요.', jumpTo: 9 },
               { text: '티 많이 나요?', jumpTo: 9 },
             ],
           },
@@ -3724,7 +3867,7 @@
           },
           {
             type: 'choice',
-            speaker: '연기과 선배',
+            speaker: '안내',
             img: 'acting.png',
             location: '연습실',
             text: '예술대학 배우 선배의 진중한 고백.',
@@ -3763,7 +3906,7 @@
           },
           {
             type: 'choice',
-            speaker: '연기과 선배',
+            speaker: '안내',
             img: 'acting.png',
             location: '연습실',
             text: '선배의 지그시 던지는 연기 커리어 질문.',
@@ -4002,7 +4145,7 @@
           },
           {
             type: 'choice',
-            speaker: '연기과 선배',
+            speaker: '안내',
             img: 'acting.png',
             location: '연습실',
             text: '선배의 날카로운 안목 멘트 타임.',
@@ -4187,7 +4330,7 @@
           },
           {
             type: 'choice',
-            speaker: '영화과 선배',
+            speaker: '안내',
             img: 'film.png',
             location: '촬영장',
             text: '메가폰을 든 강렬한 시네마틱 아우라의 선배.',
@@ -4226,7 +4369,7 @@
           },
           {
             type: 'choice',
-            speaker: '영화과 선배',
+            speaker: '안내',
             img: 'film.png',
             location: '촬영장',
             text: '레일과 복잡한 슬레이트가 춤추는 현장.',
@@ -4279,7 +4422,7 @@
           },
           {
             type: 'choice',
-            speaker: '영화과 선배',
+            speaker: '안내',
             img: 'film.png',
             location: '촬영장',
             text: '렌즈 너머 세상을 웅장하게 대하는 선배의 철학.',
@@ -4318,7 +4461,7 @@
           },
           {
             type: 'choice',
-            speaker: '영화과 선배',
+            speaker: '안내',
             img: 'film.png',
             location: '촬영장',
             text: '내 호기심 서린 눈빛을 포착한 선배.',
@@ -4385,7 +4528,7 @@
           },
           {
             type: 'choice',
-            speaker: '영화과 선배',
+            speaker: '안내',
             img: 'film.png',
             location: '촬영장',
             text: '기습 뷰파인더 앵글 고백 어택.',
@@ -4520,7 +4663,7 @@
           },
           {
             type: 'choice',
-            speaker: '영화과 선배',
+            speaker: '안내',
             img: 'film.png',
             location: '촬영장',
             text: '지그시 쳐다보며 감독 특유의 디렉팅 눈빛을 보낸다.',
@@ -4705,7 +4848,7 @@
           },
           {
             type: 'choice',
-            speaker: '디지털아트과 선배',
+            speaker: '안내',
             img: 'digitalart.png',
             location: '작업실',
             text: '수많은 모니터의 푸른 빛 속에서 선배가 고개를 까딱였다.',
@@ -4737,7 +4880,7 @@
           },
           {
             type: 'choice',
-            speaker: '디지털아트과 선배',
+            speaker: '안내',
             img: 'digitalart.png',
             location: '작업실',
             text: '작업대 옆 고사양 의자 시스템.',
@@ -4797,7 +4940,7 @@
           },
           {
             type: 'choice',
-            speaker: '디지털아트과 선배',
+            speaker: '안내',
             img: 'digitalart.png',
             location: '작업실',
             text: '테크니컬한 작업 환경 이면에 숨겨진 밤샘 현실.',
@@ -4843,7 +4986,7 @@
           },
           {
             type: 'choice',
-            speaker: '디지털아트과 선배',
+            speaker: '안내',
             img: 'digitalart.png',
             location: '작업실',
             text: '화면 가득 차오르는 메타버스 그래픽 인터페이스.',
@@ -4889,7 +5032,7 @@
           },
           {
             type: 'choice',
-            speaker: '디지털아트과 선배',
+            speaker: '안내',
             img: 'digitalart.png',
             location: '작업실',
             text: '마우스 휠을 굴리며 묻는 선배의 시선.',
@@ -4951,7 +5094,7 @@
             type: 'dialogue',
             speaker: '디지털아트과 선배',
             img: 'digitalart.png',
-            location: '촬영장',
+            location: '작업실',
             text: '너도 촬영 얘기 시작하면 똑같잖아.',
           },
           {
@@ -4965,7 +5108,7 @@
             type: 'choice',
             speaker: '선배들의 등장',
             img: 'broadcast.png',
-            location: '촬영장',
+            location: '작업실',
             text: '캔음료를 건네며 웃는 방영과 선배.',
             choices: [
               { text: '두 분 친하세요?', jumpTo: 39 },
@@ -4976,7 +5119,7 @@
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영장',
+            location: '작업실',
             text: '밤샘 메이트 정도?',
             nextIndex: 41,
           },
@@ -4984,49 +5127,49 @@
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영장',
+            location: '작업실',
             text: '촬영 뛰고 편집하고 밤새고… 거의 편집실에서 살아.',
           },
           {
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영장',
+            location: '작업실',
             text: '근데 결과물 잘 나오면 진짜 짜릿하거든.',
           },
           {
             type: 'dialogue',
             speaker: '디지털아트과 선배',
             img: 'digitalart.png',
-            location: '촬영장',
+            location: '작업실',
             text: '쟤네는 현실 찍느라 밤새고.',
           },
           {
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영장',
+            location: '작업실',
             text: '너희는 가상세계 만드느라 밤새잖아.',
           },
           {
             type: 'dialogue',
             speaker: '안내',
             img: 'digitalart.png',
-            location: '촬영장',
+            location: '작업실',
             text: '(둘이 익숙하게 웃는다)',
           },
           {
             type: 'dialogue',
             speaker: '디지털아트과 선배',
             img: 'digitalart.png',
-            location: '촬영장',
+            location: '작업실',
             text: '근데 진짜 너 디지털아트과 잘 어울릴 거 같아.',
           },
           {
             type: 'choice',
-            speaker: '디지털아트과 선배',
+            speaker: '안내',
             img: 'digitalart.png',
-            location: '촬영장',
+            location: '작업실',
             text: '모니터 조명 불빛 아래 선배의 진지한 피드백.',
             choices: [
               { text: '왜 그렇게 생각해요?', jumpTo: 47 },
@@ -5037,36 +5180,36 @@
             type: 'dialogue',
             speaker: '디지털아트과 선배',
             img: 'digitalart.png',
-            location: '촬영장',
+            location: '작업실',
             text: '사람들이 잘 안 보는 디테일 오래 바라보는 눈 있거든.',
           },
           {
             type: 'dialogue',
             speaker: '디지털아트과 선배',
             img: 'digitalart.png',
-            location: '촬영장',
+            location: '작업실',
             text: '그리고 너 아까 화면 볼 때 표정 엄청 반짝였어.',
           },
           {
             type: 'dialogue',
             speaker: '안내',
             img: 'digitalart.png',
-            location: '촬영장',
+            location: '작업실',
             text: '(순간 가까워진 거리)',
           },
           {
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영장',
+            location: '작업실',
             text: '와, 분위기 뭐야.',
           },
           {
             type: 'dialogue',
             speaker: '디지털아트과 선배',
             img: 'digitalart.png',
-            location: '촬영장',
-            text: '시끄러.',
+            location: '작업실',
+            text: '시끄러워.',
           },
           {
             type: 'dialogue',
@@ -5208,7 +5351,7 @@
           },
           {
             type: 'choice',
-            speaker: '한국음악과 선배',
+            speaker: '안내',
             img: 'koreanmusic.png',
             location: '연습실',
             text: '단아하면서도 재치 넘치는 아우라의 국악 선배.',
@@ -5240,7 +5383,7 @@
           },
           {
             type: 'choice',
-            speaker: '한국음악과 선배',
+            speaker: '안내',
             img: 'koreanmusic.png',
             location: '연습실',
             text: '나의 마음을 꿰뚫어보는 부드러운 눈길.',
@@ -5300,7 +5443,7 @@
           },
           {
             type: 'choice',
-            speaker: '한국음악과 선배',
+            speaker: '안내',
             img: 'koreanmusic.png',
             location: '연습실',
             text: '국악 전공의 스펙트럼 넓은 커리큘럼 소개.',
@@ -5360,7 +5503,7 @@
           },
           {
             type: 'choice',
-            speaker: '한국음악과 선배',
+            speaker: '안내',
             img: 'koreanmusic.png',
             location: '연습실',
             text: '맑고 공명감 넘치는 가야금 선율의 고백.',
@@ -5399,7 +5542,7 @@
           },
           {
             type: 'choice',
-            speaker: '한국음악과 선배',
+            speaker: '안내',
             img: 'koreanmusic.png',
             location: '연습실',
             text: '소리에 집중하는 내 모습을 눈에 담은 선배.',
@@ -5461,21 +5604,21 @@
             type: 'dialogue',
             speaker: '한국음악과 선배',
             img: 'koreanmusic.png',
-            location: '실음과 조우',
+            location: '연습실',
             text: '너는 왜 남의 연습실 들어와.',
           },
           {
             type: 'dialogue',
             speaker: '실용음악과 선배',
             img: 'practicalmusic.png',
-            location: '실음과 조우',
+            location: '연습실',
             text: '합주 끝나고 찾으러 왔지.',
           },
           {
             type: 'choice',
             speaker: '선배들의 인연',
             img: 'practicalmusic.png',
-            location: '실음과 조우',
+            location: '연습실',
             text: '두 거장 음악 전공 선배들의 신경전. 나의 질문은?',
             choices: [
               { text: '두 분 친하세요?', jumpTo: 40 },
@@ -5486,21 +5629,21 @@
             type: 'dialogue',
             speaker: '실용음악과 선배',
             img: 'practicalmusic.png',
-            location: '실음과 조우',
+            location: '연습실',
             text: '엄청 친하지.',
           },
           {
             type: 'dialogue',
             speaker: '한국음악과 선배',
             img: 'koreanmusic.png',
-            location: '실음과 조우',
+            location: '연습실',
             text: '거짓말.',
           },
           {
             type: 'dialogue',
             speaker: '실용음악과 선배',
             img: 'practicalmusic.png',
-            location: '실음과 조우',
+            location: '연습실',
             text: '맨날 공연 같이 하면서?',
             nextIndex: 43,
           },
@@ -5508,56 +5651,56 @@
             type: 'dialogue',
             speaker: '실용음악과 선배',
             img: 'practicalmusic.png',
-            location: '실음과 조우',
+            location: '연습실',
             text: '우리 과는 진짜 자유로운 분위기야.',
           },
           {
             type: 'dialogue',
             speaker: '실용음악과 선배',
             img: 'practicalmusic.png',
-            location: '실음과 조우',
+            location: '연습실',
             text: '합주하고 공연하고, 작업실에서 밤새 곡 만들고.',
           },
           {
             type: 'dialogue',
             speaker: '실용음악과 선배',
             img: 'practicalmusic.png',
-            location: '실음과 조우',
+            location: '연습실',
             text: '무대 끝나고 내려오면 진짜 살아 있는 느낌 들거든.',
           },
           {
             type: 'dialogue',
             speaker: '한국음악과 선배',
             img: 'koreanmusic.png',
-            location: '실음과 조우',
-            text: '쟤네는 리듬으로 밤새는 인간들.',
+            location: '연습실',
+            text: '쟤네는 리듬으로 밤새는 인간들이야.',
           },
           {
             type: 'dialogue',
             speaker: '실용음악과 선배',
             img: 'practicalmusic.png',
-            location: '실음과 조우',
+            location: '연습실',
             text: '너희는 감성으로 밤새잖아.',
           },
           {
             type: 'dialogue',
             speaker: '안내',
             img: 'koreanmusic.png',
-            location: '실음과 조우',
+            location: '연습실',
             text: '(둘이 익숙하게 웃는다)',
           },
           {
             type: 'dialogue',
             speaker: '한국음악과 선배',
             img: 'koreanmusic.png',
-            location: '실음과 조우',
+            location: '연습실',
             text: '근데 너는 한국음악과 잘 어울릴 거 같긴 해.',
           },
           {
             type: 'choice',
-            speaker: '한국음악과 선배',
+            speaker: '안내',
             img: 'koreanmusic.png',
-            location: '실음과 조우',
+            location: '연습실',
             text: '선배가 고개를 살짝 숙여 시선을 맞춘다.',
             choices: [
               { text: '왜 그렇게 생각해요?', jumpTo: 51 },
@@ -5568,36 +5711,36 @@
             type: 'dialogue',
             speaker: '한국음악과 선배',
             img: 'koreanmusic.png',
-            location: '실음과 조우',
+            location: '연습실',
             text: '사람 목소리나 소리 되게 오래 듣는 타입 같거든.',
           },
           {
             type: 'dialogue',
             speaker: '한국음악과 선배',
             img: 'koreanmusic.png',
-            location: '실음과 조우',
+            location: '연습실',
             text: '그리고 아까 연주 들을 때 표정 엄청 편해 보였어.',
           },
           {
             type: 'dialogue',
             speaker: '안내',
             img: 'koreanmusic.png',
-            location: '실음과 조우',
+            location: '연습실',
             text: '(순간 가까워진 거리)',
           },
           {
             type: 'dialogue',
             speaker: '실용음악과 선배',
             img: 'practicalmusic.png',
-            location: '실음과 조우',
+            location: '연습실',
             text: '와, 오늘 플러팅 다들 왜 이렇게 자연스럽냐.',
           },
           {
             type: 'dialogue',
             speaker: '한국음악과 선배',
             img: 'koreanmusic.png',
-            location: '실음과 조우',
-            text: '시끄러.',
+            location: '연습실',
+            text: '뭐라고?',
           },
           {
             type: 'dialogue',
@@ -5713,14 +5856,14 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'practicalmusic.png',
-            location: '실용음악동 복도',
+            location: '연습실',
             text: '(캠퍼스를 걷던 중, 멀리서 드럼 소리와 기타 소리가 섞여 들려온다)',
           },
           /* 1 */ {
             type: 'dialogue',
             speaker: '안내',
             img: 'practicalmusic.png',
-            location: '실용음악동 복도',
+            location: '연습실',
             text: '(합주실 문이 살짝 열려 있고 안에서는 음악 소리가 새어나온다)',
           },
           /* 2 */ {
@@ -5739,7 +5882,7 @@
           },
           /* 4 */ {
             type: 'choice',
-            speaker: '실용음악과 선배',
+            speaker: '안내',
             img: 'practicalmusic.png',
             location: '연습실',
             text: '일렉기타를 멘 채 능청스러운 미소를 짓는 선배.',
@@ -5771,7 +5914,7 @@
           },
           /* 8 */ {
             type: 'choice',
-            speaker: '실용음악과 선배',
+            speaker: '안내',
             img: 'practicalmusic.png',
             location: '연습실',
             text: '강렬하면서도 스윗한 선배의 질문.',
@@ -5831,7 +5974,7 @@
           },
           /* 16 */ {
             type: 'choice',
-            speaker: '실용음악과 선배',
+            speaker: '안내',
             img: 'practicalmusic.png',
             location: '연습실',
             text: '프로 뮤지션들의 작업 공간을 연상시키는 인프라.',
@@ -5884,7 +6027,7 @@
           },
           /* 23 */ {
             type: 'choice',
-            speaker: '실용음악과 선배',
+            speaker: '안내',
             img: 'practicalmusic.png',
             location: '연습실',
             text: '손끝에서 터져 나온 트렌디한 리프 선율.',
@@ -5951,7 +6094,7 @@
           },
           /* 32 */ {
             type: 'choice',
-            speaker: '실용음악과 선배',
+            speaker: '안내',
             img: 'practicalmusic.png',
             location: '연습실',
             text: '기습 무대 체질 판단 리액션 어택.',
@@ -6013,21 +6156,21 @@
             type: 'dialogue',
             speaker: '실용음악과 선배',
             img: 'practicalmusic.png',
-            location: '예장극장 외부',
+            location: '연습실',
             text: '너도 무대 올라가기 전에 예민해지잖아.',
           },
           /* 41 */ {
             type: 'dialogue',
             speaker: '무용과 선배',
             img: 'dance.png',
-            location: '예장극장 외부',
+            location: '연습실',
             text: '그건 맞지.',
           },
           /* 42 */ {
             type: 'choice',
             speaker: '선배들의 인센티브',
             img: 'dance.png',
-            location: '예장극장 외부',
+            location: '연습실',
             text: '물병을 흔들며 들어온 매력적인 크루. 나의 선택은?',
             choices: [
               { text: '두 분 친하세요?', jumpTo: 43 },
@@ -6038,7 +6181,7 @@
             type: 'dialogue',
             speaker: '무용과 선배',
             img: 'dance.png',
-            location: '예장극장 외부',
+            location: '연습실',
             text: '거의 공연 메이트지.',
             nextIndex: 45,
           },
@@ -6046,49 +6189,49 @@
             type: 'dialogue',
             speaker: '무용과 선배',
             img: 'dance.png',
-            location: '예장극장 외부',
+            location: '연습실',
             text: '무용과는 몸으로 감정 표현하는 과야.',
           },
           /* 45 */ {
             type: 'dialogue',
             speaker: '무용과 선배',
             img: 'dance.png',
-            location: '예장극장 외부',
+            location: '연습실',
             text: '공연 앞두면 다들 몸 갈아 넣으면서 연습하거든.',
           },
           /* 46 */ {
             type: 'dialogue',
             speaker: '실용음악과 선배',
             img: 'practicalmusic.png',
-            location: '예장극장 외부',
+            location: '연습실',
             text: '쟤네는 몸으로 밤새고.',
           },
           /* 47 */ {
             type: 'dialogue',
             speaker: '무용과 선배',
             img: 'dance.png',
-            location: '예장극장 외부',
+            location: '연습실',
             text: '너희는 사운드로 밤새잖아.',
           },
           /* 48 */ {
             type: 'dialogue',
             speaker: '안내',
             img: 'practicalmusic.png',
-            location: '예장극장 외부',
+            location: '연습실',
             text: '(둘이 익숙하게 웃는다)',
           },
           /* 49 */ {
             type: 'dialogue',
             speaker: '실용음악과 선배',
             img: 'practicalmusic.png',
-            location: '예장극장 외부',
+            location: '연습실',
             text: '근데 진짜 너 실용음악과 잘 어울릴 거 같아.',
           },
           /* 50 */ {
             type: 'choice',
-            speaker: '실용음악과 선배',
+            speaker: '안내',
             img: 'practicalmusic.png',
-            location: '예장극장 외부',
+            location: '연습실',
             text: '일렉 베이스 앰프 옆 진지한 스피치.',
             choices: [
               { text: '왜 그렇게 생각해요?', jumpTo: 51 },
@@ -6099,42 +6242,42 @@
             type: 'dialogue',
             speaker: '실용음악과 선배',
             img: 'practicalmusic.png',
-            location: '예장극장 외부',
+            location: '연습실',
             text: '사람 분위기 되게 잘 타는 타입 같거든.',
           },
           /* 52 */ {
             type: 'dialogue',
             speaker: '실용음악과 선배',
             img: 'practicalmusic.png',
-            location: '예장극장 외부',
+            location: '연습실',
             text: '그리고 아까 음악 들을 때 눈 반짝이는 거 다 보였어.',
           },
           /* 53 */ {
             type: 'dialogue',
             speaker: '안내',
             img: 'practicalmusic.png',
-            location: '예장극장 외부',
+            location: '연습실',
             text: '(순간 눈이 마주친다)',
           },
           /* 54 */ {
             type: 'dialogue',
             speaker: '무용과 선배',
             img: 'dance.png',
-            location: '예장극장 외부',
+            location: '연습실',
             text: '와, 진짜 자연스럽게 꼬시네.',
           },
           /* 55 */ {
             type: 'dialogue',
             speaker: '실용음악과 선배',
             img: 'practicalmusic.png',
-            location: '예장극장 외부',
+            location: '연습실',
             text: '칭찬 고마워.',
           },
           /* 56 */ {
             type: 'dialogue',
             speaker: '무용과 선배',
             img: 'dance.png',
-            location: '예장극장 외부',
+            location: '연습실',
             text: '칭찬 아니었거든.',
           },
           /* 57 */ {
@@ -6312,7 +6455,7 @@
 
           {
             type: 'choice',
-            speaker: '문예창작과 선배',
+            speaker: '안내',
             img: 'creativewriting.png',
             location: '마동 노을 지는 강의실 창가',
             text: '선배 옆 빈자리가 조용히 비어 있다.',
@@ -6356,7 +6499,7 @@
 
           {
             type: 'choice',
-            speaker: '문예창작과 선배',
+            speaker: '안내',
             img: 'creativewriting.png',
             location: '마동 노을 지는 강의실 창가',
             text: '끝없이 수정된 원고들이 눈에 들어온다.',
@@ -6416,7 +6559,7 @@
 
           {
             type: 'choice',
-            speaker: '문예창작과 선배',
+            speaker: '안내',
             img: 'creativewriting.png',
             location: '마동 노을 지는 강의실 창가',
             text: '문장을 읽는 순간 분위기가 달라진다.',
@@ -6460,7 +6603,7 @@
 
           {
             type: 'choice',
-            speaker: '문예창작과 선배',
+            speaker: '안내',
             img: 'creativewriting.png',
             location: '마동 노을 지는 강의실 창가',
             text: '갑작스러운 말에 심장이 조금 빨라진다.',
@@ -6528,7 +6671,7 @@
 
           {
             type: 'choice',
-            speaker: '극작과 선배',
+            speaker: '안내',
             img: 'playwriting.png',
             location: '마동 노을 지는 강의실 창가',
             text: '두 선배가 익숙하게 티격태격한다.',
@@ -6637,7 +6780,7 @@
 
           {
             type: 'choice',
-            speaker: '문예창작과 선배',
+            speaker: '안내',
             img: 'creativewriting.png',
             location: '마동 노을 지는 강의실 창가',
             text: '조용한 분위기 속에서 다시 눈이 마주친다.',
@@ -6839,7 +6982,7 @@
           /* 4 */
           {
             type: 'choice',
-            speaker: '극작과 선배',
+            speaker: '안내',
             img: 'playwriting.png',
             location: '노을 지는 강의실 창가',
             text: '선배의 시선이 조용히 나를 향한다.',
@@ -6879,7 +7022,7 @@
           /* 8 */
           {
             type: 'choice',
-            speaker: '극작과 선배',
+            speaker: '안내',
             img: 'playwriting.png',
             location: '노을 지는 강의실 창가',
             text: '조용한 분위기 속에서 질문이 이어진다.',
@@ -6955,7 +7098,7 @@
           /* 16 */
           {
             type: 'choice',
-            speaker: '극작과 선배',
+            speaker: '안내',
             img: 'playwriting.png',
             location: '노을 지는 강의실 창가',
             text: '선배가 피식 웃는다.',
@@ -7058,7 +7201,7 @@
           /* 27 */
           {
             type: 'choice',
-            speaker: '극작과 선배',
+            speaker: '안내',
             img: 'playwriting.png',
             location: '노을 지는 강의실 창가',
             text: '선배의 눈빛이 살짝 반짝인다.',
@@ -7098,7 +7241,7 @@
           /* 31 */
           {
             type: 'choice',
-            speaker: '극작과 선배',
+            speaker: '안내',
             img: 'playwriting.png',
             location: '노을 지는 강의실 창가',
             text: '선배가 기대한 듯 바라본다.',
@@ -7147,7 +7290,7 @@
           /* 36 */
           {
             type: 'choice',
-            speaker: '극작과 선배',
+            speaker: '안내',
             img: 'playwriting.png',
             location: '노을 지는 강의실 창가',
             text: '손에 들린 대본의 온기가 느껴진다.',
@@ -7318,7 +7461,7 @@
           /* 54 */
           {
             type: 'choice',
-            speaker: '극작과 선배',
+            speaker: '안내',
             img: 'playwriting.png',
             location: '노을 지는 강의실 창가',
             text: '조용한 분위기 속에서 다시 눈이 마주친다.',
@@ -7547,7 +7690,7 @@
           /* 4 */
           {
             type: 'choice',
-            speaker: '사진과 선배',
+            speaker: '안내',
             img: 'photo.png',
             location: '캠퍼스 광장',
             text: '갑작스러운 셔터 소리에 놀란다.',
@@ -7596,7 +7739,7 @@
           /* 9 */
           {
             type: 'choice',
-            speaker: '사진과 선배',
+            speaker: '안내',
             img: 'photo.png',
             location: '캠퍼스 광장',
             text: '카메라를 내려놓으며 웃는 선배.',
@@ -7681,7 +7824,7 @@
           /* 18 */
           {
             type: 'choice',
-            speaker: '사진과 선배',
+            speaker: '안내',
             img: 'photo.png',
             location: '캠퍼스 광장',
             text: '카메라를 만지작거리며 말하는 선배.',
@@ -7748,7 +7891,7 @@
           /* 25 */
           {
             type: 'choice',
-            speaker: '사진과 선배',
+            speaker: '안내',
             img: 'photo.png',
             location: '캠퍼스 광장',
             text: '선배의 말을 곱씹어 본다.',
@@ -7770,7 +7913,7 @@
           /* 27 */
           {
             type: 'choice',
-            speaker: '사진과 선배',
+            speaker: '안내',
             img: 'photo.png',
             location: '캠퍼스 광장',
             text: '선배가 웃으며 바라본다.',
@@ -7941,7 +8084,7 @@
           /* 45 */
           {
             type: 'choice',
-            speaker: '사진과 선배',
+            speaker: '안내',
             img: 'photo.png',
             location: '캠퍼스 광장',
             text: '갑작스러운 말에 심장이 뛰기 시작한다.',
@@ -8176,7 +8319,7 @@
           /* 4 */
           {
             type: 'choice',
-            speaker: '광고창작과 선배',
+            speaker: '안내',
             img: 'advertising.png',
             location: '광고창작과 노을 지는 강의실 창가',
             text: '선배의 시선이 나를 향한다.',
@@ -8225,7 +8368,7 @@
           /* 9 */
           {
             type: 'choice',
-            speaker: '광고창작과 선배',
+            speaker: '안내',
             img: 'advertising.png',
             location: '광고창작과 노을 지는 강의실 창가',
             text: '선배가 웃으며 바라본다.',
@@ -8301,7 +8444,7 @@
           /* 17 */
           {
             type: 'choice',
-            speaker: '광고창작과 선배',
+            speaker: '안내',
             img: 'advertising.png',
             location: '광고창작과 노을 지는 강의실 창가',
             text: '노을 지는 강의실 창가 분위기가 뜨겁다.',
@@ -8359,7 +8502,7 @@
           /* 23 */
           {
             type: 'choice',
-            speaker: '광고창작과 선배',
+            speaker: '안내',
             img: 'advertising.png',
             location: '광고창작과 노을 지는 강의실 창가',
             text: '벽 가득 붙은 시안들이 눈에 들어온다.',
@@ -8435,7 +8578,7 @@
           /* 31 */
           {
             type: 'choice',
-            speaker: '광고창작과 선배',
+            speaker: '안내',
             img: 'advertising.png',
             location: '광고창작과 노을 지는 강의실 창가',
             text: '심장이 조금 빨라진다.',
@@ -8606,7 +8749,7 @@
           /* 49 */
           {
             type: 'choice',
-            speaker: '광고창작과 선배',
+            speaker: '안내',
             img: 'advertising.png',
             location: '광고창작과 노을 지는 강의실 창가',
             text: '갑자기 조용해진 공기.',
@@ -8835,7 +8978,7 @@
           /* 4 */
           {
             type: 'choice',
-            speaker: '예술경영과 선배',
+            speaker: '안내',
             img: 'artsmanagement.png',
             location: '예장극장 외부',
             text: '분주한 분위기 속 선배가 숨을 고른다.',
@@ -8885,7 +9028,7 @@
           /* 9 */
           {
             type: 'choice',
-            speaker: '예술경영과 선배',
+            speaker: '안내',
             img: 'artsmanagement.png',
             location: '예장극장 외부',
             text: '출입증을 정리하며 묻는 선배.',
@@ -8935,7 +9078,7 @@
           /* 14 */
           {
             type: 'choice',
-            speaker: '예술경영과 선배',
+            speaker: '안내',
             img: 'artsmanagement.png',
             location: '예장극장 외부',
             text: '행사 현장을 가리키며 선배가 웃는다.',
@@ -9021,7 +9164,7 @@
           /* 23 */
           {
             type: 'choice',
-            speaker: '예술경영과 선배',
+            speaker: '안내',
             img: 'artsmanagement.png',
             location: '예장극장 외부',
             text: '바쁜 와중에도 선배는 웃고 있다.',
@@ -9098,7 +9241,7 @@
           /* 31 */
           {
             type: 'choice',
-            speaker: '예술경영과 선배',
+            speaker: '안내',
             img: 'artsmanagement.png',
             location: '예장극장 외부',
             text: '선배가 나를 바라본다.',
@@ -9148,7 +9291,7 @@
           /* 36 */
           {
             type: 'choice',
-            speaker: '예술경영과 선배',
+            speaker: '안내',
             img: 'artsmanagement.png',
             location: '예장극장 외부',
             text: '조용히 미소 짓는 선배.',
@@ -9163,7 +9306,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '아까부터 주변 계속 살피고 있었잖아요.',
             nextIndex: 39,
           },
@@ -9173,7 +9316,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '칭찬이에요.',
           },
 
@@ -9182,7 +9325,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '예술경영은 결국 분위기 읽는 일이 진짜 중요하거든요.',
           },
 
@@ -9191,7 +9334,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'artsmanagement.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '(잠깐 눈이 마주친다)',
           },
 
@@ -9200,7 +9343,7 @@
             type: 'dialogue',
             speaker: '???',
             img: 'advertising.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '와.',
           },
 
@@ -9209,7 +9352,7 @@
             type: 'dialogue',
             speaker: '???',
             img: 'advertising.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '또 신입생 스카우트 중이네.',
           },
 
@@ -9218,7 +9361,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'advertising.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '(광고창작과 선배가 포스터를 들고 다가온다)',
           },
 
@@ -9227,7 +9370,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '안녕. 얘 행사 시즌 되면 진짜 학교에서 살아.',
           },
 
@@ -9236,7 +9379,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '너희는 아이디어 회의하다 밤새잖아.',
           },
 
@@ -9245,16 +9388,16 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '그건 맞지.',
           },
 
           /* 47 */
           {
             type: 'choice',
-            speaker: '두 선배',
+            speaker: '안내',
             img: 'advertising.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '둘이 익숙하게 티격태격한다.',
             choices: [
               { text: '두 분 친하세요?', jumpTo: 48 },
@@ -9267,7 +9410,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '거의 축제 시즌 생존 메이트.',
             nextIndex: 50,
           },
@@ -9277,7 +9420,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '광고창작은 사람 시선 끄는 데 진심인 과야.',
           },
 
@@ -9286,7 +9429,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '카피 쓰고, 브랜딩 만들고, 아이디어 회의하고.',
           },
 
@@ -9295,7 +9438,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '쟤네는 사람 시선 붙잡느라 밤새고.',
           },
 
@@ -9304,7 +9447,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '너희는 행사 굴리느라 밤새잖아.',
           },
 
@@ -9313,7 +9456,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'artsmanagement.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '(둘이 익숙하게 웃는다)',
           },
 
@@ -9322,16 +9465,16 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '근데 진짜 너 예술경영과 잘 어울릴 거 같아요.',
           },
 
           /* 55 */
           {
             type: 'choice',
-            speaker: '예술경영과 선배',
+            speaker: '안내',
             img: 'artsmanagement.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '조명이 켜진 공연장을 배경으로 선배가 웃는다.',
             choices: [
               { text: '왜 그렇게 생각해요?', jumpTo: 56 },
@@ -9344,7 +9487,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '사람 표정이나 분위기 되게 잘 보고 있거든요.',
             nextIndex: 58,
           },
@@ -9354,7 +9497,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '근데 아까부터 계속 주변 챙기는 거 다 보였어요.',
           },
 
@@ -9363,7 +9506,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'artsmanagement.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '(순간 가까워진 거리)',
           },
 
@@ -9372,7 +9515,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '와, 오늘 플러팅 진짜 자연스럽다.',
           },
 
@@ -9381,8 +9524,8 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '예장극장 외부',
-            text: '시끄러.',
+            location: '예장극장 내부',
+            text: '뭐라는 건지.',
           },
 
           /* 61 */
@@ -9390,7 +9533,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'artsmanagement.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '(공연장 조명이 하나둘 켜지기 시작한다)',
           },
 
@@ -9399,7 +9542,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '오늘 학교 어땠어요?',
           },
 
@@ -9408,7 +9551,7 @@
             type: 'choice',
             speaker: '마지막 선택',
             img: 'artsmanagement.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '조명이 켜진 캠퍼스 아래 두 선배가 나를 바라본다.',
             choices: [
               { text: '예술경영과 더 궁금해졌어요.', jumpTo: 64 },
@@ -9421,7 +9564,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '잘 생각했네요.',
           },
 
@@ -9430,7 +9573,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '우리 과 오면 진짜 정신없이 바쁜 날 많을 거예요.',
           },
 
@@ -9439,7 +9582,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '근데 공연 끝나고 사람들이 웃으면서 나가는 순간 보면… 진짜 안 잊혀.',
           },
 
@@ -9448,7 +9591,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'artsmanagement.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '(선배가 출입증을 툭 흔들며 웃는다)',
           },
 
@@ -9457,7 +9600,7 @@
             type: 'choice',
             speaker: 'END — 예술경영과 루트',
             img: 'artsmanagement.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '예술경영과 무대 운영 엔딩 완료!',
             choices: [
               {
@@ -9472,7 +9615,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '좋아. 그럼 다음엔 아이디어 회의 구경이다.',
           },
 
@@ -9481,7 +9624,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '벌써 데려가네…',
           },
 
@@ -9490,7 +9633,7 @@
             type: 'choice',
             speaker: 'END — 광고창작과 루트 오픈',
             img: 'advertising.png',
-            location: '예장극장 외부',
+            location: '예장극장 내부',
             text: '광고창작과 아이디어 필드가 개방되었습니다.',
             choices: [
               {
@@ -9509,7 +9652,7 @@
 
       // 🌸 [분석 알고리즘 업데이트] 2단계 트리 구조 동작 제어 로직
       function startTest() {
-        currentQuestion = 0;
+        ccurrentQuestion = 'start';
         scores = Object.keys(scores).reduce((a, b) => ({ ...a, [b]: 0 }), {});
         screenTransition('test');
         loadQuestion();
@@ -9517,9 +9660,6 @@
 
       function loadQuestion() {
         const q = questions[currentQuestion];
-
-        progressBar.style.width =
-          ((currentQuestion + 1) / questions.length) * 100 + '%';
 
         questionNumber.innerText =
           'QUESTION ' + String(currentQuestion + 1).padStart(2, '0');
@@ -9536,14 +9676,16 @@
           btn.innerHTML = ans.text;
 
           btn.onclick = () => {
-            ans.types.forEach((t) => scores[t]++);
+            playClickSound();
 
-            currentQuestion++;
+            if (ans.next) {
+              currentQuestion = ans.next;
 
-            if (currentQuestion >= questions.length) {
-              evaluateResult();
-            } else {
               loadQuestion();
+            } else if (ans.result) {
+              selectedRoute = ans.result;
+
+              showResult();
             }
           };
 
@@ -9660,6 +9802,7 @@
             btn.classList.add('choice-btn');
             btn.innerText = ch.text;
             btn.onclick = () => {
+              playUiSound();
               if (ch.next === 'restart') {
                 location.reload();
               } else if (ch.jumpTo === 'outro_theatre') {
@@ -9707,6 +9850,7 @@
       }
 
       function handleDialogueClick() {
+        playUiSound();
         const currentScript = scriptData[selectedRoute][scriptIndex];
         if (currentScript.type === 'choice') return;
 
@@ -9811,10 +9955,54 @@
           .join('');
       }
 
+      function showResult() {
+        const dept = deptInfo[selectedRoute];
+
+        resultTitle.innerHTML = dept.title;
+
+        resultDesc.innerHTML = dept.desc;
+
+        screens.test.classList.remove('active');
+
+        screens.result.classList.add('active');
+      }
+
       function goToTest() {
         document.getElementById('tarotScreen').classList.remove('active');
 
         startTest();
+      }
+
+      function renderQuestion() {
+        const q = questions[currentQuestion];
+
+        questionText.textContent = q.question;
+
+        answerList.innerHTML = '';
+
+        q.answers.forEach((answer) => {
+          const btn = document.createElement('button');
+
+          btn.className = 'answer-btn';
+
+          btn.textContent = answer.text;
+
+          btn.onclick = () => {
+            playClickSound();
+
+            if (answer.next) {
+              currentQuestion = answer.next;
+
+              renderQuestion();
+            } else if (answer.result) {
+              selectedRoute = answer.result;
+
+              showResult();
+            }
+          };
+
+          answerList.appendChild(btn);
+        });
       }
       document.addEventListener(
         'click',
@@ -9841,26 +10029,71 @@
         },
         { once: true },
       );
-      function playClickSound() {
-        const sound = document.getElementById('clickSound');
 
-        sound.currentTime = 0;
-
-        sound.volume = 0.45;
-
-        sound.play();
-      }
       document.querySelectorAll('button').forEach((btn) => {
         btn.addEventListener('click', () => {
           playClickSound();
         });
       });
+      function openDeptSelect() {
+        screens.result.classList.remove('active');
+
+        screens.deptSelect.classList.add('active');
+
+        const deptList = document.getElementById('deptList');
+
+        deptList.innerHTML = '';
+
+        Object.keys(deptInfo).forEach((key) => {
+          const btn = document.createElement('button');
+
+          btn.className = 'answer-btn';
+
+          btn.innerText = deptInfo[key].title;
+
+          btn.onclick = () => {
+            playClickSound();
+
+            selectedRoute = key;
+
+            screens.deptSelect.classList.remove('active');
+
+            startNovel();
+          };
+
+          deptList.appendChild(btn);
+        });
+      }
+      function closeDeptSelect() {
+        screens.deptSelect.classList.remove('active');
+
+        screens.result.classList.add('active');
+      }
+
+      function playClickSound() {
+        const sound = document.getElementById('clickSound');
+
+        sound.currentTime = 0;
+
+        sound.play();
+      }
+
+      function playUiSound() {
+        const sound = document.getElementById('uiSound');
+
+        sound.currentTime = 0;
+
+        sound.play();
+      }
     </script>
     <audio id="bgm" autoplay loop>
       <source src="music/opening.mp3" type="audio/mp3" />
     </audio>
     <audio id="clickSound">
       <source src="sfx/click.mp3" type="audio/mp3" />
+    </audio>
+    <audio id="uiSound">
+      <source src="music/ui-click.mp3" type="audio/mp3" />
     </audio>
   </body>
 </html>
