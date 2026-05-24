@@ -43,20 +43,33 @@
       }
       body {
         width: 100%;
-        height: 100dvh;
+        min-height: 100vh;
+
         background: var(--bg);
         color: var(--text);
+
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
+
+        overflow-y: auto;
+
+        padding: 0;
       }
       #app-container {
         width: 100%;
         max-width: 420px;
-        height: 100dvh;
+
+        min-height: 100vh;
+        height: auto;
+
         background: var(--app-bg);
+
         position: relative;
-        overflow: hidden;
+
+        overflow-x: hidden;
+        overflow-y: visible;
+
         box-shadow:
           0 20px 50px rgba(255, 182, 193, 0.25),
           0 10px 30px rgba(0, 0, 0, 0.08);
@@ -81,6 +94,10 @@
         padding: 24px;
         overflow: hidden;
         overflow-y: auto;
+        justify-content: flex-start;
+
+        padding-top: 40px;
+        padding-bottom: 40px;
       }
       .screen.active {
         display: flex;
@@ -88,11 +105,14 @@
 
       #novelScreen {
         position: relative;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-      }
 
+        width: 100%;
+        height: 100vh;
+
+        overflow: hidden;
+
+        padding-top: 0;
+      }
       #openingScreen {
         background:
           linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.1)),
@@ -156,9 +176,13 @@
         box-shadow: 0 8px 20px rgba(255, 143, 177, 0.35);
 
         transition: 0.25s;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
       }
-      .main-btn:hover {
-        transform: translateY(-2px) scale(1.02);
+      .main-btn:hover,
+      .main-btn:active {
+        transform: scale(0.98);
+        filter: brightness(1.05);
       }
       .test-container {
         width: 100%;
@@ -208,21 +232,30 @@
         transition: 0.2s;
         font-size: 14px;
         line-height: 1.4;
+        touch-action: manipulation;
       }
-      .answer-btn:hover {
+      .answer-btn:hover,
+      .answer-btn:active {
         background: var(--hover);
+
+        transform: scale(0.98);
       }
 
       .result-box {
         width: 100%;
-        max-height: 85%;
-        padding: 24px 20px;
+
+        padding: 24px 20px 40px;
+
         border-radius: 24px;
+
         background: var(--card);
+
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+
         display: flex;
         flex-direction: column;
-        overflow-y: auto;
+
+        overflow: visible;
       }
       .result-title {
         font-size: 24px;
@@ -263,9 +296,13 @@
         text-decoration: none;
         margin-bottom: 8px;
         transition: 0.2s;
+        touch-action: manipulation;
       }
-      .link-btn:hover {
+      .link-btn:hover,
+      .link-btn:active {
         background: var(--hover);
+
+        transform: scale(0.98);
       }
 
       .top-ui {
@@ -388,9 +425,13 @@
         text-align: left;
         font-size: 13px;
         cursor: pointer;
+        touch-action: manipulation;
       }
-      .choice-btn:hover {
+      .choice-btn:hover,
+      .choice-btn:active {
         background: var(--hover);
+
+        transform: scale(0.98);
       }
       @keyframes blink {
         0%,
@@ -421,14 +462,18 @@
       }
 
       #tarotScreen {
-        justify-content: center;
+        justify-content: flex-start;
 
-        padding-top: 20px;
-        padding-bottom: 20px;
+        overflow-y: auto;
+        overflow-x: hidden;
 
-        gap: 12px;
+        -webkit-overflow-scrolling: touch;
+
+        padding-top: 60px;
+        padding-bottom: 120px;
+
+        gap: 16px;
       }
-
       .tarot-card.flipped {
         transform: rotateY(180deg);
       }
@@ -8273,7 +8318,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '(노을 지는 강의실 창가 안에는 포스터 시안과 아이디어 메모들이 가득 붙어 있다)',
           },
 
@@ -8282,7 +8327,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '거기.',
           },
 
@@ -8291,7 +8336,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '(노트북을 보던 선배가 웃으며 손짓한다)',
           },
 
@@ -8300,7 +8345,7 @@
             type: 'choice',
             speaker: '안내',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '선배의 시선이 나를 향한다.',
             choices: [
               { text: '저요?', jumpTo: 5 },
@@ -8313,7 +8358,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '아니. 오히려 잘 왔어.',
           },
 
@@ -8322,7 +8367,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '우리 지금 광고 아이디어 회의하다가 다들 멘탈 터지는 중이거든.',
           },
 
@@ -8331,7 +8376,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '(노을 지는 강의실 창가 안쪽에서는 학생들이 키워드와 문구를 붙였다 떼고 있다)',
           },
 
@@ -8340,7 +8385,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '신입생이지?',
           },
 
@@ -8349,7 +8394,7 @@
             type: 'choice',
             speaker: '안내',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '선배가 웃으며 바라본다.',
             choices: [
               { text: '네.', jumpTo: 10 },
@@ -8362,7 +8407,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '엄청. 학교 처음 온 사람 특유의 표정이 있거든.',
           },
 
@@ -8371,7 +8416,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '(선배가 의자를 끌어준다)',
           },
 
@@ -8380,7 +8425,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '앉아봐. 광고창작과 분위기 구경하는 것도 재밌어.',
           },
 
@@ -8389,7 +8434,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '(테이블 위에는 카피 문구, 스토리보드, 브랜드 레퍼런스들이 어지럽게 놓여 있다)',
           },
 
@@ -8398,7 +8443,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '광고창작은 그냥 예쁜 광고 만드는 과가 아니야.',
           },
 
@@ -8407,7 +8452,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '사람 시선 끌고, 감정 흔들고, 기억에 남게 만드는 걸 배우는 과지.',
           },
 
@@ -8416,7 +8461,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '그래서 다들 아이디어 집착 엄청 심해.',
           },
 
@@ -8425,7 +8470,7 @@
             type: 'choice',
             speaker: '안내',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '노을 지는 강의실 창가 분위기가 뜨겁다.',
             choices: [
               { text: '생각보다 엄청 치열하네요.', jumpTo: 18 },
@@ -8438,7 +8483,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '재밌긴 진짜 재밌어.',
           },
 
@@ -8447,7 +8492,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '특히 아이디어 딱 터졌을 때.',
           },
 
@@ -8456,7 +8501,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '다 같이 밤새다가 갑자기 누가 한마디 던지면 분위기 확 살아나거든.',
           },
 
@@ -8465,7 +8510,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '(선배가 벽에 붙은 광고 시안을 가리킨다)',
           },
 
@@ -8474,7 +8519,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '이것도 우리 팀 과제인데 어때?',
           },
 
@@ -8483,7 +8528,7 @@
             type: 'choice',
             speaker: '안내',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '벽 가득 붙은 시안들이 눈에 들어온다.',
             choices: [
               { text: '진짜 브랜드 광고 같다.', jumpTo: 24 },
@@ -8496,7 +8541,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '고마워.',
           },
 
@@ -8505,7 +8550,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '사실 교수님은 아직 엄청 까셨어.',
           },
 
@@ -8514,7 +8559,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '(선배가 웃으며 한숨 쉰다)',
           },
 
@@ -8523,7 +8568,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '광고과는 피드백 듣다가 멘탈 갈리는 일 진짜 많거든.',
           },
 
@@ -8532,7 +8577,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '근데 또 결과물 잘 나오면 그 맛에 밤새.',
           },
 
@@ -8541,7 +8586,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '(잠깐 정적)',
           },
 
@@ -8550,7 +8595,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '근데 너 광고창작과 좀 잘 어울릴 거 같긴 하다.',
           },
 
@@ -8559,7 +8604,7 @@
             type: 'choice',
             speaker: '안내',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '심장이 조금 빨라진다.',
             choices: [
               { text: '왜요?', jumpTo: 32 },
@@ -8572,7 +8617,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '아까부터 계속 포스터 문구 읽고 있었잖아.',
           },
 
@@ -8581,7 +8626,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '보통 사람들은 그림만 보는데.',
           },
 
@@ -8590,7 +8635,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '(순간 눈이 마주친다)',
           },
 
@@ -8599,7 +8644,7 @@
             type: 'dialogue',
             speaker: '???',
             img: 'broadcast.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '와.',
           },
 
@@ -8608,7 +8653,7 @@
             type: 'dialogue',
             speaker: '???',
             img: 'broadcast.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '또 신입생한테 작업 자랑 중이네.',
           },
 
@@ -8617,7 +8662,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'broadcast.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '(방송영상과 선배가 음료수를 들고 들어온다)',
           },
 
@@ -8626,7 +8671,7 @@
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '안녕. 얘 원래 아이디어 얘기 시작하면 안 멈춰.',
           },
 
@@ -8635,7 +8680,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '너는 촬영 얘기 시작하면 똑같잖아.',
           },
 
@@ -8644,7 +8689,7 @@
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '그건 맞지.',
           },
 
@@ -8653,7 +8698,7 @@
             type: 'choice',
             speaker: '선배들의 대화',
             img: 'broadcast.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '둘이 익숙하게 티격태격한다.',
             choices: [
               { text: '두 분 친하세요?', jumpTo: 42 },
@@ -8666,7 +8711,7 @@
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '거의 밤샘 메이트지.',
             nextIndex: 44,
           },
@@ -8676,7 +8721,7 @@
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '촬영하고 편집하고 밤새고… 거의 학교에서 살아.',
           },
 
@@ -8685,7 +8730,7 @@
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '근데 결과물 하나 제대로 나오면 진짜 짜릿하거든.',
           },
 
@@ -8694,7 +8739,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '쟤네는 영상으로 밤새고.',
           },
 
@@ -8703,7 +8748,7 @@
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '너희는 아이디어로 밤새잖아.',
           },
 
@@ -8712,7 +8757,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '(둘이 익숙하게 웃는다)',
           },
 
@@ -8721,7 +8766,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '근데 진짜 너 광고창작과 잘 어울릴 거 같아.',
           },
 
@@ -8730,7 +8775,7 @@
             type: 'choice',
             speaker: '안내',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '갑자기 조용해진 공기.',
             choices: [
               { text: '왜 그렇게 생각해요?', jumpTo: 50 },
@@ -8743,7 +8788,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '사람 반응 되게 잘 보는 타입 같거든.',
           },
 
@@ -8752,7 +8797,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '그리고 아까 아이디어 설명할 때 눈 반짝이는 거 다 보였어.',
           },
 
@@ -8761,7 +8806,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '(순간 가까워진 거리)',
           },
 
@@ -8770,7 +8815,7 @@
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '와, 오늘 플러팅 장난 아닌데.',
           },
 
@@ -8779,7 +8824,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '광고창작과 노을 지는 강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '시끄러.',
           },
 
@@ -9708,6 +9753,7 @@
         document.getElementById('dialogueBox').style.display = 'block';
         scriptIndex = 0;
         renderScene();
+        window.scrollTo(0, 0);
       }
 
       function renderScene() {
@@ -9950,6 +9996,7 @@
         document.getElementById('tarotScreen').classList.remove('active');
 
         startTest();
+        window.scrollTo(0, 0);
       }
 
       function renderQuestion() {
