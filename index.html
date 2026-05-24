@@ -87,6 +87,7 @@
       .screen {
         position: absolute;
         inset: 0;
+        -webkit-overflow-scrolling: touch;
         display: none;
         flex-direction: column;
         justify-content: center;
@@ -459,14 +460,18 @@
       }
 
       #tarotScreen {
-        justify-content: center;
+        justify-content: flex-start;
 
-        padding-top: 20px;
-        padding-bottom: 20px;
+        overflow-y: auto;
+        overflow-x: hidden;
 
-        gap: 12px;
+        -webkit-overflow-scrolling: touch;
+
+        padding-top: 60px;
+        padding-bottom: 120px;
+
+        gap: 16px;
       }
-
       .tarot-card.flipped {
         transform: rotateY(180deg);
       }
