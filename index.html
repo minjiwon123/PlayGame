@@ -82,6 +82,13 @@
         display: flex;
       }
 
+      #novelScreen {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+      }
+
       #openingScreen {
         background:
           linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.1)),
@@ -90,6 +97,20 @@
         background-size: cover;
         background-position: center;
       }
+
+      #bgLayer {
+        position: absolute;
+        inset: 0;
+
+        background-size: cover;
+        background-position: center;
+
+        z-index: 0;
+
+        transition: 0.5s;
+        pointer-events: none;
+      }
+
       .opening-title {
         font-size: 26px;
         line-height: 1.4;
@@ -272,34 +293,39 @@
         width: auto;
         object-fit: contain;
         pointer-events: none;
-        z-index: 1;
+        z-index: 2;
         transition: opacity 0.2s ease-in-out;
       }
 
       .dialogue-box {
         position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
 
-        min-height: 190px;
+        left: 50%;
+        bottom: 18px;
 
-        padding: 20px 18px 26px;
+        transform: translateX(-50%);
+
+        width: calc(100% - 24px);
+
+        min-height: 180px;
+
+        padding: 18px 18px 24px;
 
         background: linear-gradient(
           to top,
-          rgba(255, 255, 255, 0.96),
+          rgba(255, 255, 255, 0.95),
           rgba(255, 255, 255, 0.88)
         );
 
         backdrop-filter: blur(10px);
 
-        border-top-left-radius: 28px;
-        border-top-right-radius: 28px;
+        border-radius: 24px;
 
-        box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.12);
+        box-shadow:
+          0 10px 30px rgba(0, 0, 0, 0.12),
+          0 0 0 1px rgba(255, 255, 255, 0.4);
 
-        z-index: 5;
+        z-index: 20;
       }
       .name {
         font-size: 13px;
@@ -522,13 +548,10 @@
 
       <!-- 비주얼노벨 파트 -->
       <section class="screen" id="novelScreen">
+        <div id="bgLayer"></div>
         <div class="top-ui">SEOUL INSTITUTE OF THE ARTS</div>
         <div class="location-tag" id="locationTag">장소</div>
-        <img
-          src="images/character/default.png"
-          class="character"
-          id="character"
-        />
+        <img class="character" id="character" />
 
         <div
           class="dialogue-box"
@@ -1042,28 +1065,28 @@
             type: 'dialogue',
             speaker: '연극과 선배',
             img: 'theatre.png',
-            location: '예장극장 복도',
+            location: '예장극장 외부',
             text: '괜찮아. 우리 과 애들 신입생 구경하는 거 좋아해.',
           },
           {
             type: 'dialogue',
             speaker: '안내',
             img: 'theatre.png',
-            location: '예장극장 복도',
+            location: '예장극장 외부',
             text: '(선배가 웃으면 앞서 걷는다)',
           },
           {
             type: 'dialogue',
             speaker: '연극과 선배',
             img: 'theatre.png',
-            location: '예장극장 복도',
+            location: '예장극장 외부',
             text: '근데 너, 연극 좋아해?',
           },
           {
             type: 'choice',
             speaker: '연극과 선배',
             img: 'theatre.png',
-            location: '예장극장 복도',
+            location: '예장극장 외부',
             text: '고개를 갸웃하며 묻는 선배.',
             choices: [
               { text: '보는 건 좋아해요.', jumpTo: 10 },
@@ -1074,7 +1097,7 @@
             type: 'dialogue',
             speaker: '연극과 선배',
             img: 'theatre.png',
-            location: '예장극장 복도',
+            location: '예장극장 외부',
             text: '오, 그럼 무대 냄새는 좀 알겠네.',
             nextIndex: 12,
           },
@@ -1082,7 +1105,7 @@
             type: 'dialogue',
             speaker: '연극과 선배',
             img: 'theatre.png',
-            location: '예장극장 box',
+            location: '예장극장 외부',
             text: '괜찮아. 우리 과에도 원래 엄청 소심했던 애들 많아.',
             nextIndex: 12,
           },
@@ -1496,56 +1519,56 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'broadcast.png',
-            location: '스튜디오 앞',
+            location: '가동 앞',
             text: '(선배가 자연스럽게 손목을 잡고 데려간다)',
           },
           /* 8 */ {
             type: 'dialogue',
             speaker: '안내',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '(강의실 안에는 카메라, 조명, 삼각대가 어지럽게 놓여 있다)',
           },
           /* 9 */ {
             type: 'dialogue',
             speaker: '스튜디오 크루들',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '학생1: "마이크 체크 다시 할게!"',
           },
           /* 10 */ {
             type: 'dialogue',
             speaker: '스튜디오 크루들',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '학생2: "배터리 어디 갔어?!"',
           },
           /* 11 */ {
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '딱 봐도 chaos지?',
           },
           /* 12 */ {
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '근데 이상하게 이 분위기에 중독돼.',
           },
           /* 13 */ {
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '방송영상과는 진짜 몸 갈아 넣는 과야. 촬영 뛰고, 편집하고, 밤새고… 거의 학교에서 살아.',
           },
           /* 14 */ {
             type: 'choice',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '분주한 현장을 가리키며 선배가 미소 짓는다.',
             choices: [
               { text: '생각보다 엄청 빡세네요...', jumpTo: 15 },
@@ -1556,42 +1579,42 @@
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '힘든 건 맞는데 결과물 하나 잘 나오면 진짜 짜릿하거든.',
           },
           /* 16 */ {
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '특히 다 같이 밤새고 마지막 렌더 돌릴 때 그 기분이 이상해.',
           },
           /* 17 */ {
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '해 뜨는 거 보면서 편의점 가면 괜히 청춘 영화 주인공 된 느낌 든다니까.',
           },
           /* 18 */ {
             type: 'dialogue',
             speaker: '안내',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '(선배가 웃으며 카메라를 들어 보인다)',
           },
           /* 19 */ {
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '혹시 찍히는 거 좋아해?',
           },
           /* 20 */ {
             type: 'choice',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '내 눈앞으로 뷰파인더가 슥 다가온다.',
             choices: [
               { text: '별로 안 익숙해요.', jumpTo: 21 },
@@ -1602,7 +1625,7 @@
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '괜찮아. 처음엔 다 카메라 어색해해.',
             nextIndex: 23,
           },
@@ -1610,7 +1633,7 @@
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '오, 그럼 재능 있을지도 모르겠네.',
             nextIndex: 23,
           },
@@ -1618,21 +1641,21 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '(찰칵)',
           },
           /* 24 */ {
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '방금 찍었어.',
           },
           /* 25 */ {
             type: 'choice',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '기습 플래시에 깜짝 놀란 나.',
             choices: [
               { text: '뭐예요?!', jumpTo: 26 },
@@ -1643,69 +1666,70 @@
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '생각보다 잘 나왔는데? 너 화면 잘 받는다.',
           },
           /* 27 */ {
             type: 'dialogue',
             speaker: '안내',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '(선배가 휴대폰 화면을 가까이 보여준다)',
           },
           /* 28 */ {
             type: 'dialogue',
+            speaker: '안내',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '(순간 거리 가까워짐)',
           },
           /* 29 */ {
             type: 'dialogue',
             speaker: '???',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '와.',
           },
           /* 30 */ {
             type: 'dialogue',
             speaker: '???',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '진짜 작업 건다.',
           },
           /* 31 */ {
             type: 'dialogue',
             speaker: '안내',
             img: 'visualdesign.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '(뒤에서 누군가 웃는다)',
           },
           /* 32 */ {
             type: 'dialogue',
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '신입생 놀라겠다. 적당히 해.',
           },
           /* 33 */ {
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '질투?',
           },
           /* 34 */ {
             type: 'dialogue',
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '아니. 너무 티 나서.',
           },
           /* 35 */ {
             type: 'choice',
             speaker: '선배들의 티키타카',
             img: 'visualdesign.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '갑자기 나타난 세련된 인상의 시각디자인과 선배.',
             choices: [
               { text: '두 분 친하세요?', jumpTo: 36 },
@@ -1716,21 +1740,21 @@
             type: 'dialogue',
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '안 친해.',
           },
           /* 37 */ {
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '맨날 작업실에서 마주치면서?',
           },
           /* 38 */ {
             type: 'dialogue',
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '…시끄러.',
             nextIndex: 43,
           },
@@ -1738,49 +1762,49 @@
             type: 'dialogue',
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '시각디자인은 진짜 감각 싸움이야.',
           },
           /* 40 */ {
             type: 'dialogue',
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '밤새 작업하다가 교수님 한마디에 다 엎어지기도 하고.',
           },
           /* 41 */ {
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '근데 결과물은 제일 예쁘긴 해.',
           },
           /* 42 */ {
             type: 'dialogue',
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '너희는 맨날 렌더 돌리다 죽잖아.',
           },
           /* 43 */ {
             type: 'dialogue',
             speaker: '안내',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '(둘이 익숙하게 티격태격한다)',
           },
           /* 44 */ {
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '근데 너는 약간 카메라 뒤보다 앞이 더 어울릴 거 같기도 하다.',
           },
           /* 45 */ {
             type: 'choice',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '다시 한번 지그시 쳐다보며 던지는 스윗한 멘트.',
             choices: [
               { text: '갑자기요?', jumpTo: 46 },
@@ -1791,56 +1815,56 @@
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '응. 사람 시선 끄는 타입이거든.',
           },
           /* 47 */ {
             type: 'dialogue',
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '플러팅 진짜 자연스럽다.',
           },
           /* 48 */ {
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '칭찬 고마워.',
           },
           /* 49 */ {
             type: 'dialogue',
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
-            location: '촬영 강의실',
+            location: '스튜디오 내부',
             text: '칭찬 아니었거든.',
           },
           /* 50 */ {
             type: 'dialogue',
             speaker: '안내',
             img: 'broadcast.png',
-            location: '복도 창문',
+            location: '노을 지는 강의실 창가',
             text: '(어느새 창밖이 노을빛으로 물든다)',
           },
           /* 51 */ {
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '복도 창문',
+            location: '노을 지는 강의실 창가',
             text: '오늘 School 어땠어?',
           },
           /* 52 */ {
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '복도 창문',
+            location: '노을 지는 강의실 창가',
             text: '생각보다 재밌지 않았냐.',
           },
           /* 53 */ {
             type: 'choice',
             speaker: '마지막 선택',
             img: 'broadcast.png',
-            location: '복도 창문',
+            location: '노을 지는 강의실 창가',
             text: '노을 아래에서 두 선배가 나를 본다.',
             choices: [
               { text: '방송영상과 더 궁금해졌어요.', jumpTo: 54 },
@@ -1851,42 +1875,42 @@
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '복도 창문',
+            location: '노을 지는 강의실 창가',
             text: '잘 생각했네.',
           },
           /* 55 */ {
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '복도 창문',
+            location: '노을 지는 강의실 창가',
             text: '우리 과 오면 진짜 밤 많이 새게 될걸?',
           },
           /* 56 */ {
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '복도 창문',
+            location: '노을 지는 강의실 창가',
             text: '대신 네 대학 생활, 절대 재미없진 않을 거야.',
           },
           /* 57 */ {
             type: 'dialogue',
             speaker: '안내',
             img: 'broadcast.png',
-            location: '복도 창문',
+            location: '노을 지는 강의실 창가',
             text: '(선배가 웃으며 카메라를 들어 올린다)',
           },
           /* 58 */ {
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '복도 창문',
+            location: '노을 지는 강의실 창가',
             text: '다음엔 진짜 우리 작품 같이 찍자.',
           },
           /* 59 */ {
             type: 'choice',
             speaker: 'END — 방송영상과 루트',
             img: 'broadcast.png',
-            location: '복도 창문',
+            location: '노을 지는 강의실 창가',
             text: '방송영상과 선배의 메인 주인공이 되셨습니다.',
             choices: [
               {
@@ -1899,28 +1923,28 @@
             type: 'dialogue',
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
-            location: '복도 창문',
+            location: '노을 지는 강의실 창가',
             text: '후회 안 할걸.',
           },
           /* 61 */ {
             type: 'dialogue',
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
-            location: '복도 창문',
+            location: '노을 지는 강의실 창가',
             text: '우리 작업실 밤 분위기 진짜 예쁘거든.',
           },
           /* 62 */ {
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '복도 창문',
+            location: '노을 지는 강의실 창가',
             text: '벌써 데려가네.',
           },
           /* 63 */ {
             type: 'choice',
             speaker: 'END — 시각디자인 루트 오픈',
             img: 'visualdesign.png',
-            location: '복도 창문',
+            location: '노을 지는 강의실 창가',
             text: '시각디자인과 전공 필드가 오픈되었습니다.',
             choices: [
               {
@@ -3953,74 +3977,74 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'acting.png',
-            location: '노을 지는 창가',
+            location: '노을 지는 강의실 창가',
             text: '(강의실 창밖으로 노을빛이 천천히 번진다)',
           },
           {
             type: 'dialogue',
             speaker: '연기과 선배',
             img: 'acting.png',
-            location: '노을 지는 창가',
+            location: '노을 지는 강의실 창가',
             text: '오늘 학교 어땠어?',
           },
           {
             type: 'dialogue',
             speaker: '연기과 선배',
             img: 'acting.png',
-            location: '노을 지는 창가',
+            location: '노을 지는 강의실 창가',
             text: '생각보다 재밌지 않았냐.',
           },
           {
             type: 'choice',
             speaker: '운명의 결정',
             img: 'acting.png',
-            location: '노을 지는 창가',
+            location: '노을 지는 강의실 창가',
             text: '연습실 창문 너머로 붉은 빛이 차오른다. 나의 결정은?',
             choices: [
               { text: '연기과 더 궁금해졌어요.', jumpTo: 64 },
-              { text: '영화과도 궁금해요.', jumpTo: 68 },
+              { text: '영화과도 궁금해요.', jumpTo: 70 },
             ],
           },
           {
             type: 'dialogue',
             speaker: '연기과 선배',
             img: 'acting.png',
-            location: '노을 지는 창가',
+            location: '노을 지는 강의실 창가',
             text: '잘 생각했네.',
           },
           {
             type: 'dialogue',
             speaker: '연기과 선배',
             img: 'acting.png',
-            location: '노을 지는 창가',
+            location: '노을 지는 강의실 창가',
             text: '우리 과 오면 진짜 감정 엄청 많이 쓰게 될 거야.',
           },
           {
             type: 'dialogue',
             speaker: '연기과 선배',
             img: 'acting.png',
-            location: '노을 지는 창가',
+            location: '노을 지는 강의실 창가',
             text: '근데 무대 위에서 관객 숨 멎는 순간은… 진짜 안 잊혀.',
           },
           {
             type: 'dialogue',
             speaker: '안내',
             img: 'acting.png',
-            location: '노을 지는 창가',
+            location: '노을 지는 강의실 창가',
             text: '(선배가 웃으며 손을 내민다)',
           },
           {
             type: 'dialogue',
             speaker: '연기과 선배',
             img: 'acting.png',
-            location: '노을 지는 창가',
+            location: '노을 지는 강의실 창가',
             text: '다음엔 관객 말고 같이 무대 올라가자.',
           },
           {
             type: 'choice',
             speaker: 'END — 연기과 루트',
             img: 'acting.png',
-            location: '노을 지는 창가',
+            location: '노을 지는 강의실 창가',
             text: '연기과 선배의 영원한 무대 파트너 배우 엔딩 완료!',
             choices: [
               { text: '연기과 입시 가이드 확인하기', jumpTo: 'outro_acting' },
@@ -4030,20 +4054,20 @@
             type: 'dialogue',
             speaker: '영화과 선배',
             img: 'film.png',
-            location: '노을 지는 창가',
+            location: '노을 지는 강의실 창가',
             text: '좋아. 그럼 다음엔 촬영장 투어다.',
           },
           {
-            type: '연기과 선배',
+            type: 'dialogue',
             img: 'acting.png',
-            location: '노을 지는 창가',
+            location: '노을 지는 강의실 창가',
             text: '벌써 데려가네…',
           },
           {
             type: 'choice',
             speaker: 'END — 영화과 루트 오픈',
             img: 'film.png',
-            location: '노을 지는 창가',
+            location: '노을 지는 강의실 창가',
             text: '영화과 스크린 시네마틱 필드가 오픈되었습니다.',
             choices: [
               { text: '영화과 입시 가이드 확인하기', jumpTo: 'outro_film' },
@@ -6142,7 +6166,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '(캠퍼스를 걷던 중, 조용한 작업실 안에서 키보드 두드리는 소리가 들린다)',
           },
 
@@ -6150,7 +6174,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '(문틈 사이로 노트북 불빛이 새어나온다)',
           },
 
@@ -6158,7 +6182,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '계속 그렇게 서 있으면 집중 하나도 안 되는데.',
           },
 
@@ -6166,7 +6190,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '(타이핑하던 선배가 웃으며 고개를 든다)',
           },
 
@@ -6174,7 +6198,7 @@
             type: 'choice',
             speaker: '안내',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '조용한 작업실 분위기에 괜히 긴장된다.',
             choices: [
               { text: '죄송해요…', jumpTo: 5 },
@@ -6186,7 +6210,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '괜찮아. 어차피 지금 문장 막혀서 쉬고 있었거든.',
           },
 
@@ -6194,7 +6218,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '(선배가 노트북을 살짝 돌려 빈 의자를 가리킨다)',
           },
 
@@ -6202,7 +6226,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '앉을래?',
           },
 
@@ -6210,7 +6234,7 @@
             type: 'choice',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '선배 옆 빈자리가 조용히 비어 있다.',
             choices: [
               { text: '감사합니다.', jumpTo: 9 },
@@ -6222,7 +6246,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '(작업실 안에는 원고지, 노트, 책들이 가득 쌓여 있다)',
           },
 
@@ -6230,7 +6254,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '문예창작과는 거의 여기서 살아.',
           },
 
@@ -6238,7 +6262,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '글 쓰고, 퇴고하고, 또 다 지우고 다시 쓰고.',
           },
 
@@ -6246,7 +6270,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '그래서 다들 약간 예민해져 있을 때도 많아.',
           },
 
@@ -6254,7 +6278,7 @@
             type: 'choice',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '끝없이 수정된 원고들이 눈에 들어온다.',
             choices: [
               { text: '엄청 힘들겠네요…', jumpTo: 14 },
@@ -6266,7 +6290,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '힘들긴 하지.',
           },
 
@@ -6274,7 +6298,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '근데 딱 마음에 드는 문장 나오는 순간은 진짜 미쳐.',
           },
 
@@ -6282,7 +6306,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '새벽까지 붙잡고 있다가 한 줄 완성되면 괜히 세상 다 가진 기분 들거든.',
           },
 
@@ -6290,7 +6314,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '(선배가 웃으며 노트북 화면을 보여준다)',
           },
 
@@ -6298,7 +6322,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '이거 이번 과제인데 읽어볼래?',
           },
 
@@ -6306,7 +6330,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '(짧은 소설 문장이 화면에 떠 있다)',
           },
 
@@ -6314,7 +6338,7 @@
             type: 'choice',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '문장을 읽는 순간 분위기가 달라진다.',
             choices: [
               { text: '분위기 진짜 좋다…', jumpTo: 21 },
@@ -6326,7 +6350,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '사실 아까부터 네 반응 좀 보고 있었거든.',
           },
 
@@ -6334,7 +6358,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '너 글 읽을 때 표정 되게 솔직하게 변해.',
           },
 
@@ -6342,7 +6366,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '(잠깐 눈이 마주친다)',
           },
 
@@ -6350,7 +6374,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '너는 문예창작과 잘 어울릴 거 같아.',
           },
 
@@ -6358,7 +6382,7 @@
             type: 'choice',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '갑작스러운 말에 심장이 조금 빨라진다.',
             choices: [
               { text: '왜 그렇게 생각해요?', jumpTo: 26 },
@@ -6370,7 +6394,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '사람 말이나 분위기 오래 붙잡고 보는 타입 같거든.',
           },
 
@@ -6378,7 +6402,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '그런 사람들이 결국 글 남겨.',
           },
 
@@ -6386,7 +6410,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'playwriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '(문 쪽에서 누군가 웃는다)',
           },
 
@@ -6394,7 +6418,7 @@
             type: 'dialogue',
             speaker: '극작과 선배',
             img: 'playwriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '와. 또 신입생 감성 잡고 있네.',
           },
 
@@ -6402,7 +6426,7 @@
             type: 'dialogue',
             speaker: '극작과 선배',
             img: 'playwriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '안녕. 얘 원래 소설 얘기 시작하면 안 멈춰.',
           },
 
@@ -6410,7 +6434,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '너는 사람만 보면 캐릭터 설정 짜잖아.',
           },
 
@@ -6418,7 +6442,7 @@
             type: 'dialogue',
             speaker: '극작과 선배',
             img: 'playwriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '그건 직업병이지.',
           },
 
@@ -6426,7 +6450,7 @@
             type: 'choice',
             speaker: '극작과 선배',
             img: 'playwriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '두 선배가 익숙하게 티격태격한다.',
             choices: [
               { text: '두 분 친하세요?', jumpTo: 34 },
@@ -6438,7 +6462,7 @@
             type: 'dialogue',
             speaker: '극작과 선배',
             img: 'playwriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '맨날 싸우는 정도로 친함.',
             nextIndex: 36,
           },
@@ -6447,7 +6471,7 @@
             type: 'dialogue',
             speaker: '극작과 선배',
             img: 'playwriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '극작과는 이야기를 무대랑 화면으로 만드는 사람들이야.',
           },
 
@@ -6455,7 +6479,7 @@
             type: 'dialogue',
             speaker: '극작과 선배',
             img: 'playwriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '대본 쓰고, 캐릭터 만들고, 장면 구성하고.',
           },
 
@@ -6463,7 +6487,7 @@
             type: 'dialogue',
             speaker: '극작과 선배',
             img: 'playwriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '그래서 사람 관찰 엄청 많이 해.',
           },
 
@@ -6471,7 +6495,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '쟤네는 대사로 밤새고.',
           },
 
@@ -6479,7 +6503,7 @@
             type: 'dialogue',
             speaker: '극작과 선배',
             img: 'playwriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '너희는 문장 하나 붙잡고 밤새잖아.',
           },
 
@@ -6487,7 +6511,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '(둘이 익숙하게 웃는다)',
           },
 
@@ -6495,7 +6519,7 @@
             type: 'dialogue',
             speaker: '극작과 선배',
             img: 'playwriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '근데 얘 문장 진짜 좋긴 해.',
           },
 
@@ -6503,7 +6527,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '갑자기 왜 칭찬해.',
           },
 
@@ -6511,7 +6535,7 @@
             type: 'dialogue',
             speaker: '극작과 선배',
             img: 'playwriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '신입생 앞이라 이미지 관리.',
           },
 
@@ -6519,7 +6543,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '(문예창작과 선배가 피식 웃는다)',
           },
 
@@ -6527,7 +6551,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '근데 진짜 너는 문예창작과 잘 어울릴 거 같아.',
           },
 
@@ -6535,7 +6559,7 @@
             type: 'choice',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '조용한 분위기 속에서 다시 눈이 마주친다.',
             choices: [
               { text: '왜요?', jumpTo: 47 },
@@ -6547,7 +6571,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '아까부터 글 읽을 때 눈빛이 달라졌거든.',
           },
 
@@ -6555,7 +6579,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '사람 감정 오래 붙잡고 있는 타입 같아.',
           },
 
@@ -6563,7 +6587,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '(순간 가까워진 거리)',
           },
 
@@ -6571,7 +6595,7 @@
             type: 'dialogue',
             speaker: '극작과 선배',
             img: 'playwriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '와, 오늘 플러팅 수위 높은데.',
           },
 
@@ -6579,7 +6603,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '시끄러.',
           },
 
@@ -6587,7 +6611,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '(작업실 창밖으로 노을빛이 천천히 번진다)',
           },
 
@@ -6595,7 +6619,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '오늘 학교 어땠어?',
           },
 
@@ -6603,7 +6627,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '생각보다 재밌지 않았냐.',
           },
 
@@ -6611,7 +6635,7 @@
             type: 'choice',
             speaker: '마지막 선택',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '노을빛 아래 두 선배가 나를 바라본다.',
             choices: [
               { text: '문예창작과 더 궁금해졌어요.', jumpTo: 56 },
@@ -6623,7 +6647,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '잘 생각했네.',
           },
 
@@ -6631,7 +6655,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '우리 과 오면 진짜 밤새 글 쓰는 날 많을 거야.',
           },
 
@@ -6639,7 +6663,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '근데 네 문장 하나로 누군가 감정 흔들리는 순간은… 진짜 안 잊혀.',
           },
 
@@ -6647,7 +6671,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '(선배가 웃으며 노트북을 닫는다)',
           },
 
@@ -6655,7 +6679,7 @@
             type: 'choice',
             speaker: 'END — 문예창작과 루트',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '다음엔 네 이야기를 들려달라는 선배의 목소리가 남는다.',
             choices: [
               {
@@ -6669,7 +6693,7 @@
             type: 'dialogue',
             speaker: '극작과 선배',
             img: 'playwriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '좋아. 그럼 다음엔 대본 작업실 투어다.',
           },
 
@@ -6677,7 +6701,7 @@
             type: 'dialogue',
             speaker: '문예창작과 선배',
             img: 'creativewriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '벌써 데려가네…',
           },
 
@@ -6685,7 +6709,7 @@
             type: 'choice',
             speaker: 'END — 극작과 루트 오픈',
             img: 'playwriting.png',
-            location: '문예창작과 작업실',
+            location: '마동 강의실',
             text: '극작과 선배가 의미심장하게 웃는다.',
             choices: [
               {
@@ -7274,7 +7298,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'playwriting.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '(강의실 창밖으로 노을빛이 천천히 번진다)',
           },
 
@@ -7283,7 +7307,7 @@
             type: 'dialogue',
             speaker: '극작과 선배',
             img: 'playwriting.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '오늘 학교 어땠어?',
           },
 
@@ -7292,7 +7316,7 @@
             type: 'dialogue',
             speaker: '극작과 선배',
             img: 'playwriting.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '생각보다 재밌지 않았냐.',
           },
 
@@ -7301,7 +7325,7 @@
             type: 'choice',
             speaker: '마지막 선택',
             img: 'playwriting.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '노을 아래 두 선배가 나를 바라본다.',
             choices: [
               { text: '극작과 더 궁금해졌어요.', jumpTo: 64 },
@@ -7314,7 +7338,7 @@
             type: 'dialogue',
             speaker: '극작과 선배',
             img: 'playwriting.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '잘 생각했네.',
           },
 
@@ -7323,7 +7347,7 @@
             type: 'dialogue',
             speaker: '극작과 선배',
             img: 'playwriting.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '우리 과 오면 진짜 밤새 글 쓰는 날 많을 거야.',
           },
 
@@ -7332,7 +7356,7 @@
             type: 'dialogue',
             speaker: '극작과 선배',
             img: 'playwriting.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '근데 네가 만든 이야기로 누군가 울고 웃는 순간은… 진짜 안 잊혀.',
           },
 
@@ -7341,7 +7365,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'playwriting.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '(선배가 웃으며 대본을 덮는다)',
           },
 
@@ -7350,7 +7374,7 @@
             type: 'dialogue',
             speaker: '극작과 선배',
             img: 'playwriting.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '다음엔 네 얘기도 한번 들려줘.',
           },
 
@@ -7359,7 +7383,7 @@
             type: 'choice',
             speaker: 'END — 극작과 루트',
             img: 'playwriting.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '극작과 선배와 새로운 이야기가 시작됩니다.',
             choices: [
               {
@@ -7374,7 +7398,7 @@
             type: 'dialogue',
             speaker: '연기과 선배',
             img: 'acting.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '좋아. 그럼 다음엔 연습실 투어다.',
           },
 
@@ -7383,7 +7407,7 @@
             type: 'dialogue',
             speaker: '극작과 선배',
             img: 'playwriting.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '벌써 데려가네…',
           },
 
@@ -7392,7 +7416,7 @@
             type: 'choice',
             speaker: 'END — 연기과 루트 오픈',
             img: 'acting.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '연기과 루트가 새롭게 개방되었습니다.',
             choices: [
               {
@@ -7516,7 +7540,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '(선배가 웃으며 카메라를 내려놓는다)',
           },
 
@@ -7525,7 +7549,7 @@
             type: 'dialogue',
             speaker: '사진과 선배',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '사진과는 그런 순간 되게 좋아해.',
           },
 
@@ -7534,7 +7558,7 @@
             type: 'dialogue',
             speaker: '사진과 선배',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '사람이 무의식적으로 드러나는 표정 같은 거.',
           },
 
@@ -7543,7 +7567,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '(벤치 옆에 카메라 가방과 인화 사진들이 놓여 있다)',
           },
 
@@ -7552,7 +7576,7 @@
             type: 'dialogue',
             speaker: '사진과 선배',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '사진과는 생각보다 엄청 많이 돌아다녀.',
           },
 
@@ -7561,7 +7585,7 @@
             type: 'dialogue',
             speaker: '사진과 선배',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '촬영 나가고, 전시 준비하고, 암실 들어가고.',
           },
 
@@ -7570,7 +7594,7 @@
             type: 'dialogue',
             speaker: '사진과 선배',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '사진 한 장 때문에 하루 종일 기다릴 때도 많고.',
           },
 
@@ -7579,7 +7603,7 @@
             type: 'choice',
             speaker: '사진과 선배',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '카메라를 만지작거리며 말하는 선배.',
             choices: [
               { text: '생각보다 되게 감성적이다…', jumpTo: 19 },
@@ -7592,7 +7616,7 @@
             type: 'dialogue',
             speaker: '사진과 선배',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '힘들긴 한데 재밌어.',
           },
 
@@ -7601,7 +7625,7 @@
             type: 'dialogue',
             speaker: '사진과 선배',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '특히 내가 원했던 분위기 딱 찍히는 순간은 진짜 짜릿하거든.',
           },
 
@@ -7610,7 +7634,7 @@
             type: 'dialogue',
             speaker: '사진과 선배',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '그래서 다들 카메라 못 놓고 사는 거 같아.',
           },
 
@@ -7619,7 +7643,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '(선배가 주변 풍경을 한번 둘러본다)',
           },
 
@@ -7628,7 +7652,7 @@
             type: 'dialogue',
             speaker: '사진과 선배',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '같은 학교여도 누가 찍냐에 따라 완전 다르게 보이거든.',
           },
 
@@ -7637,7 +7661,7 @@
             type: 'dialogue',
             speaker: '사진과 선배',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '사진은 결국 시선의 차이라.',
           },
 
@@ -7646,7 +7670,7 @@
             type: 'choice',
             speaker: '사진과 선배',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '선배의 말을 곱씹어 본다.',
             choices: [
               { text: '멋있네요.', jumpTo: 26 },
@@ -7659,7 +7683,7 @@
             type: 'dialogue',
             speaker: '사진과 선배',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '너는 약간 사진 좋아할 타입 같긴 하다.',
           },
 
@@ -7668,7 +7692,7 @@
             type: 'choice',
             speaker: '사진과 선배',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '선배가 웃으며 바라본다.',
             choices: [
               { text: '왜요?', jumpTo: 28 },
@@ -7681,7 +7705,7 @@
             type: 'dialogue',
             speaker: '사진과 선배',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '아까부터 풍경보다 분위기를 먼저 보고 있었거든.',
           },
 
@@ -7690,7 +7714,7 @@
             type: 'dialogue',
             speaker: '사진과 선배',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '그리고 사람 표정도 엄청 오래 보고.',
           },
 
@@ -7699,7 +7723,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '(순간 눈이 마주친다)',
           },
 
@@ -7708,7 +7732,7 @@
             type: 'dialogue',
             speaker: '???',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '와.',
           },
 
@@ -7717,7 +7741,7 @@
             type: 'dialogue',
             speaker: '???',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '또 신입생 사진 찍고 있었네.',
           },
 
@@ -7726,7 +7750,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'visualdesign.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '(시각디자인과 선배가 음료수를 들고 다가온다)',
           },
 
@@ -7735,7 +7759,7 @@
             type: 'dialogue',
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '안녕. 얘 원래 마음에 드는 분위기 보이면 바로 셔터 눌러.',
           },
 
@@ -7744,7 +7768,7 @@
             type: 'dialogue',
             speaker: '사진과 선배',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '너도 작업 레퍼런스 저장 중독이잖아.',
           },
 
@@ -7753,7 +7777,7 @@
             type: 'dialogue',
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '그건 인정.',
           },
 
@@ -7762,7 +7786,7 @@
             type: 'choice',
             speaker: '선배들의 대화',
             img: 'visualdesign.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '티격태격하는 두 선배.',
             choices: [
               { text: '두 분 친하세요?', jumpTo: 38 },
@@ -7775,7 +7799,7 @@
             type: 'dialogue',
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '거의 밤샘 메이트 수준이지.',
             nextIndex: 40,
           },
@@ -7785,7 +7809,7 @@
             type: 'dialogue',
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '시각디자인은 감각이랑 디테일에 미친 과야.',
           },
 
@@ -7794,7 +7818,7 @@
             type: 'dialogue',
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '교수님 피드백 한 번에 작업 갈아엎는 경우도 엄청 많고.',
           },
 
@@ -7803,7 +7827,7 @@
             type: 'dialogue',
             speaker: '사진과 선배',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '쟤네는 화면 안에서 밤새고.',
           },
 
@@ -7812,7 +7836,7 @@
             type: 'dialogue',
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '너희는 사진 한 장 건지겠다고 밤새잖아.',
           },
 
@@ -7821,7 +7845,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '(둘이 익숙하게 웃는다)',
           },
 
@@ -7830,7 +7854,7 @@
             type: 'dialogue',
             speaker: '사진과 선배',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '근데 진짜 너는 사진과 잘 어울릴 거 같아.',
           },
 
@@ -7839,7 +7863,7 @@
             type: 'choice',
             speaker: '사진과 선배',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '갑작스러운 말에 심장이 뛰기 시작한다.',
             choices: [
               { text: '왜 그렇게 생각해요?', jumpTo: 46 },
@@ -7852,7 +7876,7 @@
             type: 'dialogue',
             speaker: '사진과 선배',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '사람이나 공간 볼 때 눈이 오래 머물거든.',
           },
 
@@ -7861,7 +7885,7 @@
             type: 'dialogue',
             speaker: '사진과 선배',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '그리고 아까 사진 보여줄 때 표정 엄청 반짝였어.',
           },
 
@@ -7870,7 +7894,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '(순간 가까워진 거리)',
           },
 
@@ -7879,7 +7903,7 @@
             type: 'dialogue',
             speaker: '시각디자인과 선배',
             img: 'visualdesign.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '와, 분위기 미쳤다.',
           },
 
@@ -7888,7 +7912,7 @@
             type: 'dialogue',
             speaker: '사진과 선배',
             img: 'photo.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '너 진짜 안 가?',
           },
 
@@ -7897,7 +7921,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'visualdesign.png',
-            location: '캠퍼스 벤치',
+            location: '캠퍼스 광장',
             text: '(시각디자인과 선배가 웃는다)',
           },
 
@@ -8562,7 +8586,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'advertising.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '(강의실 창밖으로 노을빛이 번진다)',
           },
 
@@ -8571,7 +8595,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '오늘 학교 어땠어?',
           },
 
@@ -8580,7 +8604,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '생각보다 재밌지 않았냐.',
           },
 
@@ -8589,7 +8613,7 @@
             type: 'choice',
             speaker: '마지막 선택',
             img: 'advertising.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '노을 아래 두 선배가 나를 바라본다.',
             choices: [
               { text: '광고창작과 더 궁금해졌어요.', jumpTo: 59 },
@@ -8602,7 +8626,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '잘 생각했네.',
           },
 
@@ -8611,7 +8635,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '우리 과 오면 진짜 머리 터질 만큼 고민하는 날 많을 거야.',
           },
 
@@ -8620,7 +8644,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '근데 네 아이디어 하나로 사람 기억에 남는 순간은… 진짜 짜릿하거든.',
           },
 
@@ -8629,7 +8653,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'advertising.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '(선배가 웃으며 포스트잇 하나를 건넨다)',
           },
 
@@ -8638,7 +8662,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '다음엔 네 아이디어도 한번 들어보자.',
           },
 
@@ -8647,7 +8671,7 @@
             type: 'choice',
             speaker: 'END — 광고창작과 루트',
             img: 'advertising.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '광고창작과 선배와 새로운 캠페인이 시작됩니다.',
             choices: [
               {
@@ -8662,7 +8686,7 @@
             type: 'dialogue',
             speaker: '방송영상과 선배',
             img: 'broadcast.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '좋아. 그럼 다음엔 촬영장 투어다.',
           },
 
@@ -8671,7 +8695,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '벌써 데려가네…',
           },
 
@@ -8680,7 +8704,7 @@
             type: 'choice',
             speaker: 'END — 방송영상과 루트 오픈',
             img: 'broadcast.png',
-            location: '강의실 창가',
+            location: '노을 지는 강의실 창가',
             text: '방송영상과 루트가 새롭게 개방되었습니다.',
             choices: [
               {
@@ -8697,8 +8721,8 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
-            text: '(캠퍼스를 걷던 중, 공연장 앞에서 분주하게 뛰어다니는 학생들이 보인다)',
+            location: '예장극장 외부',
+            text: '(캠퍼스를 걷던 중, 예장극장 외부에서 분주하게 뛰어다니는 학생들이 보인다)',
           },
 
           /* 1 */
@@ -8706,7 +8730,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '(누군가는 포스터를 붙이고, 누군가는 무전기로 대화하고 있다)',
           },
 
@@ -8715,7 +8739,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '잠깐만요! 거기 테이프 좀 밟지 말아줄래요?',
           },
 
@@ -8724,7 +8748,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '(목에 출입증을 건 선배가 급하게 다가온다)',
           },
 
@@ -8733,7 +8757,7 @@
             type: 'choice',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '분주한 분위기 속 선배가 숨을 고른다.',
             choices: [
               { text: '아, 죄송해요!', jumpTo: 5 },
@@ -8746,7 +8770,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '괜찮아요. 오늘 다들 정신이 없어서.',
             nextIndex: 7,
           },
@@ -8756,7 +8780,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '오늘 공연 리허설이랑 전시 오프닝이 같이 겹쳤거든요.',
           },
 
@@ -8765,7 +8789,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '(선배가 숨을 고르며 웃는다)',
           },
 
@@ -8774,7 +8798,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '신입생이죠?',
           },
 
@@ -8783,7 +8807,7 @@
             type: 'choice',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '출입증을 정리하며 묻는 선배.',
             choices: [
               { text: '티 많이 났어요?', jumpTo: 10 },
@@ -8796,7 +8820,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '엄청요. 아까부터 두리번거리는 거 다 보였거든.',
             nextIndex: 12,
           },
@@ -8806,7 +8830,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '그럴 줄 알았어요. 여기 처음 오면 정신없긴 하죠.',
           },
 
@@ -8815,7 +8839,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '(선배가 공연장 쪽을 바라본다)',
           },
 
@@ -8824,7 +8848,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '근데 이 정신없는 분위기 좋아하면 예술경영과 잘 맞을 수도 있어요.',
           },
 
@@ -8833,7 +8857,7 @@
             type: 'choice',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '행사 현장을 가리키며 선배가 웃는다.',
             choices: [
               { text: '예술경영과는 정확히 뭐 하는 과예요?', jumpTo: 15 },
@@ -8846,7 +8870,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '공연, 전시, 축제 같은 거 기획하고 운영하는 사람들이에요.',
             nextIndex: 17,
           },
@@ -8856,7 +8880,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '엄청 바쁘죠. 대신 행사 하나 끝나면 진짜 짜릿해요.',
           },
 
@@ -8865,7 +8889,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '무대 위에 서는 사람들은 아니지만…',
           },
 
@@ -8874,7 +8898,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '그 무대를 진짜 굴러가게 만드는 사람들이랄까.',
           },
 
@@ -8883,7 +8907,7 @@
             type: 'dialogue',
             speaker: '학생',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '선배! 리플렛 어디다 놔요?!',
           },
 
@@ -8892,7 +8916,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '아 잠깐만!',
           },
 
@@ -8901,7 +8925,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '(선배가 빠르게 다녀온다)',
           },
 
@@ -8910,7 +8934,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '미안. 행사 날엔 원래 정신이 없어.',
           },
 
@@ -8919,7 +8943,7 @@
             type: 'choice',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '바쁜 와중에도 선배는 웃고 있다.',
             choices: [
               { text: '근데 되게 멋있어요.', jumpTo: 24 },
@@ -8932,7 +8956,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '진짜요?',
             nextIndex: 26,
           },
@@ -8942,7 +8966,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '힘들긴 한데 이상하게 계속 하게 돼요.',
           },
 
@@ -8951,7 +8975,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '공연 끝나고 관객 반응 터질 때 있잖아요.',
           },
 
@@ -8960,7 +8984,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '그 순간 보면 밤샌 거 다 잊혀져.',
           },
 
@@ -8969,7 +8993,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '(선배가 살짝 웃는다)',
           },
 
@@ -8978,7 +9002,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '예술경영은 사람 좋아해야 하는 과 같기도 해.',
           },
 
@@ -8987,7 +9011,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '아티스트, 관객, 스태프 사이에서 계속 움직여야 하거든.',
           },
 
@@ -8996,7 +9020,7 @@
             type: 'choice',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '선배가 나를 바라본다.',
             choices: [
               { text: '전 사람 만나는 거 좋아하는 편이에요.', jumpTo: 32 },
@@ -9009,7 +9033,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '그럼 진짜 잘 맞을 수도 있겠다.',
             nextIndex: 34,
           },
@@ -9019,7 +9043,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '괜찮아요. 우리 과에도 원래 조용한 사람들 많거든요.',
           },
 
@@ -9028,7 +9052,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '(선배가 출입증을 만지작거린다)',
           },
 
@@ -9037,7 +9061,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '근데 너는 약간 사람 분위기 잘 읽는 타입 같긴 해요.',
           },
 
@@ -9046,7 +9070,7 @@
             type: 'choice',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '조용히 미소 짓는 선배.',
             choices: [
               { text: '왜 그렇게 생각해요?', jumpTo: 37 },
@@ -9059,7 +9083,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '아까부터 주변 계속 살피고 있었잖아요.',
             nextIndex: 39,
           },
@@ -9069,7 +9093,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '칭찬이에요.',
           },
 
@@ -9078,7 +9102,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '예술경영은 결국 분위기 읽는 일이 진짜 중요하거든요.',
           },
 
@@ -9087,7 +9111,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '(잠깐 눈이 마주친다)',
           },
 
@@ -9096,7 +9120,7 @@
             type: 'dialogue',
             speaker: '???',
             img: 'advertising.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '와.',
           },
 
@@ -9105,7 +9129,7 @@
             type: 'dialogue',
             speaker: '???',
             img: 'advertising.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '또 신입생 스카우트 중이네.',
           },
 
@@ -9114,7 +9138,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'advertising.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '(광고창작과 선배가 포스터를 들고 다가온다)',
           },
 
@@ -9123,7 +9147,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '안녕. 얘 행사 시즌 되면 진짜 학교에서 살아.',
           },
 
@@ -9132,7 +9156,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '너희는 아이디어 회의하다 밤새잖아.',
           },
 
@@ -9141,7 +9165,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '그건 맞지.',
           },
 
@@ -9150,7 +9174,7 @@
             type: 'choice',
             speaker: '두 선배',
             img: 'advertising.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '둘이 익숙하게 티격태격한다.',
             choices: [
               { text: '두 분 친하세요?', jumpTo: 48 },
@@ -9163,7 +9187,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '거의 축제 시즌 생존 메이트.',
             nextIndex: 50,
           },
@@ -9173,7 +9197,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '광고창작은 사람 시선 끄는 데 진심인 과야.',
           },
 
@@ -9182,7 +9206,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '카피 쓰고, 브랜딩 만들고, 아이디어 회의하고.',
           },
 
@@ -9191,7 +9215,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '쟤네는 사람 시선 붙잡느라 밤새고.',
           },
 
@@ -9200,7 +9224,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '너희는 행사 굴리느라 밤새잖아.',
           },
 
@@ -9209,7 +9233,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '(둘이 익숙하게 웃는다)',
           },
 
@@ -9218,7 +9242,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '근데 진짜 너 예술경영과 잘 어울릴 거 같아요.',
           },
 
@@ -9227,7 +9251,7 @@
             type: 'choice',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '조명이 켜진 공연장을 배경으로 선배가 웃는다.',
             choices: [
               { text: '왜 그렇게 생각해요?', jumpTo: 56 },
@@ -9240,7 +9264,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '사람 표정이나 분위기 되게 잘 보고 있거든요.',
             nextIndex: 58,
           },
@@ -9250,7 +9274,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '근데 아까부터 계속 주변 챙기는 거 다 보였어요.',
           },
 
@@ -9259,7 +9283,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '(순간 가까워진 거리)',
           },
 
@@ -9268,7 +9292,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '와, 오늘 플러팅 진짜 자연스럽다.',
           },
 
@@ -9277,7 +9301,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '시끄러.',
           },
 
@@ -9286,7 +9310,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '(공연장 조명이 하나둘 켜지기 시작한다)',
           },
 
@@ -9295,7 +9319,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '오늘 학교 어땠어요?',
           },
 
@@ -9304,7 +9328,7 @@
             type: 'choice',
             speaker: '마지막 선택',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '조명이 켜진 캠퍼스 아래 두 선배가 나를 바라본다.',
             choices: [
               { text: '예술경영과 더 궁금해졌어요.', jumpTo: 64 },
@@ -9317,7 +9341,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '잘 생각했네요.',
           },
 
@@ -9326,7 +9350,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '우리 과 오면 진짜 정신없이 바쁜 날 많을 거예요.',
           },
 
@@ -9335,7 +9359,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '근데 공연 끝나고 사람들이 웃으면서 나가는 순간 보면… 진짜 안 잊혀.',
           },
 
@@ -9344,7 +9368,7 @@
             type: 'dialogue',
             speaker: '안내',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '(선배가 출입증을 툭 흔들며 웃는다)',
           },
 
@@ -9353,7 +9377,7 @@
             type: 'choice',
             speaker: 'END — 예술경영과 루트',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '예술경영과 무대 운영 엔딩 완료!',
             choices: [
               {
@@ -9368,7 +9392,7 @@
             type: 'dialogue',
             speaker: '광고창작과 선배',
             img: 'advertising.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '좋아. 그럼 다음엔 아이디어 회의 구경이다.',
           },
 
@@ -9377,7 +9401,7 @@
             type: 'dialogue',
             speaker: '예술경영과 선배',
             img: 'artsmanagement.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '벌써 데려가네…',
           },
 
@@ -9386,7 +9410,7 @@
             type: 'choice',
             speaker: 'END — 광고창작과 루트 오픈',
             img: 'advertising.png',
-            location: '공연장 앞',
+            location: '예장극장 외부',
             text: '광고창작과 아이디어 필드가 개방되었습니다.',
             choices: [
               {
@@ -9480,11 +9504,15 @@
 
       function startNovel() {
         screenTransition('novel');
+        document.getElementById('dialogueBox').style.display = 'block';
         scriptIndex = 0;
         renderScene();
       }
 
       function renderScene() {
+        console.log(selectedRoute);
+        console.log(scriptData[selectedRoute]);
+        dialogueBox.style.display = 'block';
         const currentScript = scriptData[selectedRoute][scriptIndex];
 
         if (currentScript.img) {
@@ -9502,6 +9530,33 @@
 
         nameEl.innerText = currentScript.speaker;
         locationTag.innerText = currentScript.location;
+        const bgLayer = document.getElementById('bgLayer');
+
+        const bgMap = {
+          '빨간 계단': 'red-stairs.jpg',
+          '예장극장 외부': 'theater-outside.jpg',
+          '예장극장 내부': 'theater-inside.jpg',
+          '캠퍼스 광장': 'campus-square-night.jpg',
+
+          '계단 난간': 'stair-railing.jpg',
+          '가동 앞': 'studio-front.jpg',
+          '스튜디오 내부': 'filming-classroom.jpg',
+
+          '마동 강의실': 'creativewriting-room.jpg',
+          '노을 지는 강의실 창가': 'classroom-window.jpg',
+
+          '석양의 운동장': 'sunset-playground.jpg',
+          연습실: 'practice-room.jpg',
+          촬영장: 'film-set.jpg',
+
+          작업실: 'design-studio.jpg',
+        };
+
+        const bgFile = bgMap[currentScript.location];
+
+        if (bgFile) {
+          bgLayer.style.backgroundImage = `url('images/background/${bgFile}')`;
+        }
         dialogueEl.innerHTML = currentScript.text;
 
         if (currentScript.type === 'dialogue') {
@@ -9555,6 +9610,10 @@
             choicesEl.appendChild(btn);
           });
         }
+
+        if (bgFile) {
+          bgLayer.style.backgroundImage = `url('images/background/${bgFile}')`;
+        }
       }
 
       function handleDialogueClick() {
@@ -9581,8 +9640,12 @@
       }
 
       function startTarot() {
+        // opening 화면 숨기기
         screens.opening.classList.remove('active');
-        document.getElementById('tarotScreen').classList.add('active');
+
+        // tarot 화면 활성화 (screens 객체 사용)
+        const tarotScreen = document.getElementById('tarotScreen');
+        tarotScreen.classList.add('active');
 
         const container = document.getElementById('tarotContainer');
         container.innerHTML = '';
