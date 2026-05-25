@@ -793,6 +793,9 @@
         outroType = document.getElementById('outroType');
 
       let currentQuestion = 'start';
+      let answeredCount = 0;
+
+      const totalQuestions = 3;
       ((scriptIndex = 0), (selectedRoute = ''));
       let selectedTarots = [];
       let scores = {
@@ -9686,8 +9689,9 @@
         const q = questions[currentQuestion];
 
         questionNumber.innerText =
-          'QUESTION ' + String(currentQuestion + 1).padStart(2, '0');
+          'QUESTION ' + String(answeredCount + 1).padStart(2, '0');
 
+        progressBar.style.width = `${(answeredCount / totalQuestions) * 100}%`;
         questionText.innerHTML = q.question;
 
         answerList.innerHTML = '';
@@ -9702,17 +9706,22 @@
           btn.onclick = () => {
             playClickSound();
 
+            answeredCount++;
+
+            progressBar.style.width = `${(answeredCount / totalQuestions) * 100}%`;
+
             if (ans.next) {
               currentQuestion = ans.next;
 
               loadQuestion();
             } else if (ans.result) {
+              progressBar.style.width = '100%';
+
               selectedRoute = ans.result;
 
               showResult();
             }
           };
-
           answerList.appendChild(btn);
         });
       }
